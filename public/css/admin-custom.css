@@ -1,0 +1,8 @@
+.wrapper{
+    min-height: 950px;
+    width: 100%;
+    overflow-x:hidden;
+}
+.padding{
+    padding: 1em;
+}
