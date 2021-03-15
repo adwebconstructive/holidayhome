@@ -22,5 +22,11 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.dashboard');
     });
     Route::resource('hotels', 'HotelController');
+    Route::post('hotels/{id}', 'HotelController@updateHotel');
+    Route::get('hotel/{id}', 'HotelController@deleteHotel')->name('delete.hotel');
+    Route::get('hotel-add-more/{id}', 'HotelController@moreView');
+    Route::post('hotel-image-add/{id}', 'HotelController@addImage')->name('add.hotel.image');
+    Route::post('hotel-room-add/{id}', 'HotelController@addRoom')->name('add.hotel.room');
+    Route::get('change-hotel-status/{id}', 'HotelController@changeHotelStatus');
 
 });

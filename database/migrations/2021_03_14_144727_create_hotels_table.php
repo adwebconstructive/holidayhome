@@ -27,6 +27,7 @@ class CreateHotelsTable extends Migration
             $table->string('contact_phone')->nullable()->default(Null);
             $table->tinyInteger('enabled')->nullable()->default(1)->comment('0 disabled 1 enabled');
             $table->string('logo')->nullable()->default(Null);
+            $table->string('deleted_at')->nullable()->default(Null);
             $table->timestamps();
         });
     }
