@@ -5,14 +5,19 @@
         <div class="content-wrapper">
             <!-- /.row -->
             <div class="row">
+                 @if(session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+                @endif
                 <div class="col-12 mb-2">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg">
                         Add Image
                     </button>
 
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-room">
+                    <a href="{{url('admin/hotels/room-create',$hotel->id)}}" class="btn btn-info" >
                         Add Room
-                    </button>
+                    </a>
                 </div>
             </div>
             <div>
@@ -20,11 +25,19 @@
                 <div class="row">
 
                 @foreach($hotel->hotelImage as $data)
+                    <div>
                         <img src="{{$data->image_path}}" width="250px" height="200px" class="ml-2 mr-2">
-
+                        <div style="width:250px;" class="ml-2 mr-2">
+                            <a href="{{url('admin/hotels/image-delete',$data->id)}}" class="btn btn-danger full-widh"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
                 @endforeach
+                @if($hotel->hotelImage->count() == 0)
+                   <h5 class="ml-2"> No image found</h5>
+                @endif
                 </div>
             </div>
+            
             <hr>
             <h4>Rooms</h4>
             <div class="card-body table-responsive p-0">
@@ -56,7 +69,13 @@
                             <td>{{$data->price}}</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-image{{$data->id}}">
-                                    More <i class="fas fa-eye"></i>
+                                     <i class="fas fa-image"></i>
+                                </button>
+                                <a href="{{url('admin/hotels/room-edit',$data->id)}}" class="btn btn-sm btn-info" >
+                                     <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete{{$data->id}}">
+                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -70,13 +89,39 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="row"> 
                                         @foreach($data->roomImage as $image)
-                                            <div>
-                                                <img src="{{$image->image_path}}" class="col-md-3">
-                                            </div>
+                                                     <div class="mb-2">
+                                                        <img src="{{$image->image_path}}" width="220px" height="200px" class="ml-2">
+                                                        <div style="width:220px;" class="ml-2 mr-2">
+                                                            <a href="{{url('admin/hotels/image-delete',$image->id)}}" class="btn btn-danger full-widh"><i class="fa fa-trash"></i></a>
+                                                        </div>
+                                                    </div>
                                         @endforeach
                                     </div>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+
+                         <div class="modal fade" id="modal-delete{{$data->id}}">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header ">
+                                        <h4 class="modal-title">Delete</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are U sure ??
+                                    
+                                    </div>
+                                <div class="modal-footer justify-content-between">
+                                    <a href="{{url('admin/hotels/room-delete',$data->id)}}" class="btn btn-primary">Yes</a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                            </div>
                             </div>
                         </div>
                     @endforeach
@@ -116,63 +161,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modal-lg-room">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Room</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form  method="post" action="{{route('add.hotel.room',$hotel->id)}}" enctype="multipart/form-data">
-                            {{csrf_field()}}
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label for="contact_person">Room Number</label>
-                                    <input name="room_number" class="form-control" id="room_number" placeholder="Room Number" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_person">Description</label>
-                                    <input name="description" class="form-control" id="description" placeholder="Description" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_person">Room Type</label>
-                                    <input name="room_type" class="form-control" id="room_type" placeholder="room_type" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_person">Person Allowed</label>
-                                    <input type="number" name="person_allowed" class="form-control" id="person_allowed" placeholder="person_allowed" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="max_person_allowed">Max Person Allowed</label>
-                                    <input type="number" name="max_person_allowed" class="form-control" id="max_person_allowed" placeholder="max_person_allowed" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="max_person_allowed">Rate</label>
-                                    <input type="number" name="rate" class="form-control" id="rate" placeholder="rate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price">Price</label>
-                                    <input type="number" name="price" class="form-control" id="price" placeholder="price" required>
-                                </div>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="form-control"  multiple name="images[]">
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
     </div>
