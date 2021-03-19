@@ -145,6 +145,7 @@
                 </div>
         </form>
         @endif
+        @include('partials.validation-error')
     </div>
 </div>
 

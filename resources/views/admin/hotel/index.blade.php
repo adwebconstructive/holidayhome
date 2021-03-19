@@ -28,15 +28,13 @@
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
-
                                 </div>
                             </form>
-
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -65,7 +63,7 @@
                                     <td>{{$hotel->contact_person}},{{$hotel->contact_phone}},{{$hotel->contact_email}}</td>
                                     <td><img src="{{$hotel->logo}}" width="100px" height="100px"></td>
                                     <td>
-                                        <div class="btn-group btn-group-sm">
+                                        <div class="btn-group">
 
                                             <a href="{{url('admin/change-hotel-status',$hotel->id)}}" class="btn btn-warning">
                                                 @if($hotel->enabled == 0) Enable @else Disable @endif
@@ -76,10 +74,9 @@
                                             <a href="{{url('admin/hotels/edit',$hotel->id)}}" class="btn btn-info">
                                                 Edit <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete{{$hotel->id}}">
+                                            <a class="btn btn-danger" href="{{route('delete.hotel',$hotel->id)}}">
                                                 Delete <i class="fas fa-trash"></i>
-                                            </button>
-
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -104,8 +101,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{--end delete model--}}
-
+                                {{--end delete modal--}}
                                 @endforeach
                             </tbody>
                         </table>

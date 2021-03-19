@@ -17,4 +17,9 @@ class Hotel extends Model
     public  function  hotelImage(){
         return $this->hasMany('App\Models\HotelImage', 'hotel_id')->whereNull('room_id');
     }
+
+    public function getUniqueName()
+    {
+        return $this->id . str_slug($this->name);
+    }
 }
