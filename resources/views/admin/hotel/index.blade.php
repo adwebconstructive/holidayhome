@@ -38,9 +38,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Country</th>
-                                    <th>State</th>
-                                    <th>City</th>
+                                   
                                     <th>Address</th>
                                     <th>Pin</th>
                                     <th>GSTN</th>
@@ -60,7 +58,7 @@
                                     <td>{{$hotel->address}}</td>
                                     <td>{{$hotel->pin_code}}</td>
                                     <td>{{$hotel->gstn}}</td>
-                                    <td>{{$hotel->contact_person}},{{$hotel->contact_phone}},{{$hotel->contact_email}}</td>
+                                    <td>{{$hotel->contact_person}} <br> {{$hotel->contact_phone}} <br> {{$hotel->contact_email}}</td>
                                     <td><img src="{{$hotel->logo}}" width="100px" height="100px"></td>
                                     <td>
                                         <div class="btn-group">
