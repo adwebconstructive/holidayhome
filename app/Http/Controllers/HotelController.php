@@ -30,16 +30,7 @@ class HotelController extends Controller
     {
         $params = $request->validate(config('settings.hotel.creation_validation_rules'));
         $hotel = Hotel::create($params);
-
-        if (!empty($request->get('logo'))) {
-            $image = $request->file('logo');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/hotels/logo');
-            $image->move($destinationPath, $name);
-            $hotel->logo = ENV('APP_URL') . '/hotels/logo/' . $name;
-        }
-        $hotel->save();
-
+        $this->saveImage($hotel, $request->file('logo'));
         return back()->with('success', 'Hotel added successfully');
     }
 
@@ -52,26 +43,17 @@ class HotelController extends Controller
     public function update(Request $request, $id)
     {
 
-        $params = $request->validate($request, config('settings.hotel.update_validation_rules'));
-        $hotel = Hotel::find($id)->update($params);
-
-        if (!empty($request['logo'])) {
-            $image = $request->file('logo');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/hotels/logo');
-            $image->move($destinationPath, $name);
-            $hotel->logo = ENV('APP_URL') . '/hotels/logo/' . $name;
-        }
-        $hotel->enabled = 1;
-        $hotel->save();
+        $params = $request->validate(config('settings.hotel.update_validation_rules'));
+        $hotel = Hotel::find($id);
+        $hotel->update($params);
+        $this->saveImage($hotel, $request->file('logo'));
         return back()->with('success', 'Hotel updated successfully');
     }
 
-    public  function  delete($id)
+    public function delete($id)
     {
         $hotel = Hotel::findOrFail($id);
-        $hotel->deleted_at = now();
-        $hotel->save();
+        $hotel->delete();
         return back()->with('success', 'Hotel deleted successfully');
     }
 
@@ -214,5 +196,17 @@ class HotelController extends Controller
         HotelImage::where('id', $id)->delete();
 
         return back();
+    }
+
+    public function saveImage($hotel, $image)
+    {
+        if ($image != null) {
+            $uniqueName = $hotel->getUniqueName();
+            $name = $uniqueName . "." . $image->getClientOriginalExtension();
+            $destinationPath = public_path("/hotels/$uniqueName");
+            $image->move($destinationPath, $name);
+            $hotel->logo = asset("hotels/$uniqueName/$name");
+            $hotel->save();
+        }
     }
 }

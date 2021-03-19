@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,26 +15,85 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css')}}">
     {{--custom css--}}
     <link rel="stylesheet" href="{{ asset('css/admin-custom.css')}}">
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- AdminLTE -->
+    <script src="{{ asset('dist/js/adminlte.js')}}"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ asset('dist/js/demo.js')}}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{ asset('dist/js/pages/dashboard3.js')}}"></script>
+    <!-- SweetAlert -->
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
-
-@yield('content')
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- AdminLTE -->
-<script src="{{ asset('dist/js/adminlte.js')}}"></script>
-
-<!-- OPTIONAL SCRIPTS -->
-<script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js')}}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('dist/js/pages/dashboard3.js')}}"></script>
+    @yield('content')
 </body>
+
+<script>
+    $(window).on('load', () => {
+        // Animate loader off screen
+        $("#preloader").fadeOut("slow");
+        // $("#preloader").hide();
+    });
+    $(document).ready(() => {
+        $('a.confirm').on('click', (event) => {
+            event.preventDefault();
+            let url = event.currentTarget.href;
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'Please check again!',
+            }).then((result) => {
+                if (result.value) {
+                    window.location = url;
+                }
+            });
+        });
+
+        $('form').on('submit', (event) => {
+            event.preventDefault();
+            let url = event.target.href;
+            Swal.fire({
+                icon: 'warning',
+                title: 'Do you want to submit the form?',
+                text: 'Please confirm!',
+            }).then((result) => {
+                if (result.value) {
+                    event.target.submit();
+                }
+            });
+        });
+
+        @if(session()->has('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: "{{ session()->get('success') }}",
+        });
+        @endif
+        @if(session()->has('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "{{ session()->get('error') }}",
+        });
+        @endif
+    });
+</script>
+
+
+
 </html>
