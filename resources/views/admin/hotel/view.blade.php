@@ -10,23 +10,17 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3>{{ $hotel->name }}</h3>
+                        <h1>{{ $hotel->name }}</h1>
                         <hr>
                         <div class="row">
-                            <div class="col-md-3">
-                                <h4>Logo</h4>
-                                <img src="{{ $hotel->logo}}" alt="Logo">
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <h4>Address</h4>
-                                {{ $hotel->full_address}}
-                            </div>
-                            <div class="col-md-3">
+                                <p>{{ $hotel->full_address}}</p>
                                 <h4>Contact Info</h4>
-                            </div>
-                            <div class="col-md-3">
+                                <p>{{ $hotel->contact_details }}</p>
                                 <h4>Contract Details</h4>
                             </div>
+
                         </div>
                     </div>
                 </div>

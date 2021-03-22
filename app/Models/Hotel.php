@@ -27,4 +27,9 @@ class Hotel extends Model
     {
         return $this->address. ", ". $this->city . ", " . $this->state . ", " . $this->pin_code;
     }
+
+     public function getContactDetailsAttribute()
+    {
+        return $this->contact_person. ", ". $this->contact_email . ", " . $this->contact_phone ;
+    }
 }
