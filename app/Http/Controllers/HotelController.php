@@ -34,6 +34,12 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel added successfully');
     }
 
+    public function view($id)
+    {
+        $hotel = Hotel::findOrFail($id);
+        return view('admin.hotel.view', compact('hotel'));
+    }
+
     public function edit($id)
     {
         $hotel = Hotel::findOrFail($id);
@@ -57,10 +63,10 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel deleted successfully');
     }
 
-    public function roomIndex($id)
+    public function createRoom($id)
     {
         $hotel = Hotel::findOrFail($id);
-        return view('admin.create-room', compact('hotel'));
+        return view('admin.hotel.room.create', compact('hotel'));
     }
 
     public function editRoomIndex($id)

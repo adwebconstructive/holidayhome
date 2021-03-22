@@ -30,6 +30,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('', 'HotelController@store')->name('hotels.store');
         Route::post('{id}', 'HotelController@update')->name('hotels.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('delete.hotel');
+
+        Route::group(['prefix' => '{id?}/room'], function(){
+            Route::get('create', 'HotelController@createRoom')->name('hotel.room.create');
+            Route::get('', 'HotelController@saveRoom')->name('hotel.room.store');
+        });
+
     });
 
     Route::get('hotel-add-more/{id}', 'HotelController@moreView');
