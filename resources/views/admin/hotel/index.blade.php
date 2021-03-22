@@ -34,13 +34,11 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table class="table table-hover hotels">
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                   
                                     <th>Address</th>
-                                    <th>Pin</th>
                                     <th>GSTN</th>
                                     <th>Contact Details</th>
                                     <th>Logo</th>
@@ -51,30 +49,28 @@
                                 @foreach($hotels as $hotel)
                                 <tr>
                                     <td>{{$hotel->name}}</td>
-                                    <td>{{$hotel->country}}</td>
-                                    {{--<td><span class="tag tag-success">Approved</span></td>--}}
-                                    <td>{{$hotel->state}}</td>
-                                    <td>{{$hotel->city}}</td>
-                                    <td>{{$hotel->address}}</td>
-                                    <td>{{$hotel->pin_code}}</td>
+                                    <td>{{ $hotel->full_address }}</td>
                                     <td>{{$hotel->gstn}}</td>
                                     <td>{{$hotel->contact_person}} <br> {{$hotel->contact_phone}} <br> {{$hotel->contact_email}}</td>
                                     <td><img src="{{$hotel->logo}}" width="100px" height="100px"></td>
                                     <td>
                                         <div class="btn-group">
-
                                             <a href="{{url('admin/change-hotel-status',$hotel->id)}}" class="btn btn-warning">
-                                                @if($hotel->enabled == 0) Enable @else Disable @endif
+                                                @if($hotel->enabled == 0)
+                                                <i class="fas fa-arrow-circle-up"></i> Enable
+                                                @else
+                                                <i class="fas fa-arrow-circle-down"></i> Disable
+                                                @endif
                                             </a>
-                                            <a href="{{url('admin/hotel-add-more',$hotel->id)}}" class="btn btn-primary">
-                                                Add More <i class="fas fa-plus"></i>
+                                            <a href="{{route('hotels.view',$hotel->id)}}" class="btn btn-default">
+                                                <i class="fas fa-eye"></i> View
                                             </a>
+
                                             <a href="{{url('admin/hotels/edit',$hotel->id)}}" class="btn btn-info">
-                                                Edit <i class="fas fa-edit"></i>
+                                                <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a class="btn btn-danger" href="{{route('delete.hotel',$hotel->id)}}">
-                                                Delete <i class="fas fa-trash"></i>
-                                            </a>
+                                            <a class="btn btn-danger confirm" href="{{route('delete.hotel',$hotel->id)}}">
+                                                <i class="fas fa-trash"></i> Delete </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -88,7 +84,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Are you sure ??
+                                                Are you sure ?
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <form action="{{route('delete.hotel',$hotel->id)}}" method="GET">

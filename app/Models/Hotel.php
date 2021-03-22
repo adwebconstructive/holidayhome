@@ -20,6 +20,11 @@ class Hotel extends Model
 
     public function getUniqueName()
     {
-        return $this->id . str_slug($this->name);
+        return $this->id . '-'. str_slug($this->name);
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return $this->address. ", ". $this->city . ", " . $this->state . ", " . $this->pin_code;
     }
 }

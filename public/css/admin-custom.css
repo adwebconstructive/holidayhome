@@ -10,3 +10,7 @@
 .full-widh{
 	width: 100%;
 }
+
+.hotels td{
+    vertical-align: middle;
+}
