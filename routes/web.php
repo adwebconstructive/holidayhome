@@ -51,3 +51,10 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('hotels/image-delete/{id}', 'HotelController@imageDelete');
 });
+
+Route::group(['prefix' => 'reservation'], function () {
+        Route::get('', 'ReservationController@index');
+        Route::get('create', 'ReservationController@create')->name('reservation.create');
+        Route::post('store', 'ReservationController@store')->name('reservation.store');
+       
+    });

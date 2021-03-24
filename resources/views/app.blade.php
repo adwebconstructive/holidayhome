@@ -20,6 +20,15 @@
     {{--custom css--}}
     <link rel="stylesheet" href="{{ asset('css/admin-custom.css')}}">
 
+    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+  <!-- Select2 -->
+
+
+
+
+
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
@@ -36,6 +45,17 @@
     <script src="{{ asset('dist/js/pages/dashboard3.js')}}"></script>
     <!-- SweetAlert -->
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+
+    <script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
+
+    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+
+    
+    
 </head>
 
 <body class="hold-transition sidebar-mini">
