@@ -5,7 +5,7 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h3>Create room for hotel {{ $hotel->name }}</h3>
+                <h3>Create room for hotel: <span class="text-primary">{{ $hotel->name }}</span></h3>
                 <hr>
                 <form method="post" action="{{ route('hotel.room.store',$hotel->id) }}" enctype="multipart/form-data">
                     {{csrf_field()}}
@@ -34,21 +34,20 @@
                         <div class="form-group col-md-3">
                             <label for="max_person_allowed">Max Person Allowed</label>
                             <input type="number" name="max_person_allowed" class="form-control"
-                                value="{{ old('max_person_allowed') }}" placeholder="max_person_allowed" required>
+                                value="{{ old('max_person_allowed') }}" placeholder="Max Person Allowed" required>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="max_person_allowed">Rate</label>
-
-                            <input type="number" name="rate" class="form-control" value="{{ old('rate') }}"
+                            <input type="number" name="rate" class="form-control" value="{{ old('Rate') }}"
                                 placeholder="rate" required>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="price">Price</label>
-                            <input type="number" name="price" class="form-control" value="{{ old('price') }}"
+                            <input type="number" name="price" class="form-control" value="{{ old('Price') }}"
                                 placeholder="price" required>
                         </div>
                         <div class="form-group">
-                            <label class="col-12">Image</label>
+                            <label class="col-12">Images</label>
                             <input type="file" class="form-control-file" multiple name="images[]">
                         </div>
                     </div>

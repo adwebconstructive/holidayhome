@@ -10,12 +10,15 @@ use App\Models\HotelImage;
 
 class HotelController extends Controller
 {
-
     public function index(Request $request)
     {
         $hotels = Hotel::whereRaw('1');
         if (!empty($request['table_search'])) {
-            $hotels = $hotels->where('name', 'like', $request['table_search'] . '%');
+            $hotels = $hotels->where(
+                'name',
+                'like',
+                $request['table_search'] . '%'
+            );
         }
         $hotels = $hotels->paginate(config('settings.variable.page_size'));
         return view('admin.hotel.index', compact('hotels'));
@@ -30,8 +33,9 @@ class HotelController extends Controller
     {
         $params = $request->validate(config('settings.hotel.creation_validation_rules'));
         $hotel = Hotel::create($params);
-        $this->saveImage($hotel, $request->file('logo'));
-        return back()->with('success', 'Hotel added successfully');
+        $hotel->logo = $this->saveImage($request->file('logo'), $hotel->getUniqueName(), 'hotel');
+        $hotel->save();
+        return back()->with('success', 'Hotel added successfully!');
     }
 
     public function view($id)
@@ -48,12 +52,11 @@ class HotelController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $params = $request->validate(config('settings.hotel.update_validation_rules'));
         $hotel = Hotel::find($id);
-        $hotel->update($params);
-        $this->saveImage($hotel, $request->file('logo'));
-        return back()->with('success', 'Hotel updated successfully');
+        $path = $this->saveImage($request->file('logo'), $hotel->getUniqueName(), 'hotel');
+        $hotel->update($params + ['logo' => $path]);
+        return back()->with('success', 'Hotel updated successfully!');
     }
 
     public function delete($id)
@@ -63,10 +66,25 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel deleted successfully');
     }
 
+    // Hotel Room 
+
     public function createRoom($id)
     {
         $hotel = Hotel::findOrFail($id);
         return view('admin.hotel.room.create', compact('hotel'));
+    }
+
+    public function saveRoom(Request $request, $id)
+    {
+        $params = $request->validate(config('settings.hotel.room_creation_validation_rules'));
+        $hotelRoom = HotelRoom::create(['hotel_id' => $id] + $params);
+        if ($request->get('images') != null) {
+            foreach ($request->get('images') as $image) {
+                $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
+                HotelImage::create(['image_path' => $image_path, 'imageable_id' => $hotelRoom->id, HotelRoom::class]);
+            }
+        }
+        return back()->with('success', 'Hotel added successfully');
     }
 
     public function editRoomIndex($id)
@@ -75,15 +93,16 @@ class HotelController extends Controller
         return view('admin.create-room', compact('hotelRoom'));
     }
 
-    public  function moreView($id)
+    public function moreView($id)
     {
-        $hotel = Hotel::with('hotelRoom.roomImage', 'hotelImage')->where('id', $id)->first();
+        $hotel = Hotel::with('hotelRoom.roomImage', 'hotelImage')
+            ->where('id', $id)
+            ->first();
         return view('admin.add-more', compact('hotel'));
     }
 
-    public  function addImage(Request $request, $id)
+    public function addImage(Request $request, $id)
     {
-
         if (!empty($request['images'])) {
             foreach ($request['images'] as $img) {
                 $hotelImage = new HotelImage();
@@ -96,46 +115,17 @@ class HotelController extends Controller
                     $hotelImage->room_id = $request['room_id'];
                 }
                 $hotelImage->hotel_id = $id;
-                $hotelImage->image_path = ENV('APP_URL') . '/hotels/image/' . $name;
+                $hotelImage->image_path =
+                    ENV('APP_URL') . '/hotels/image/' . $name;
                 $hotelImage->save();
             }
         }
         return back()->with('success', 'Hotel image added successfully');
     }
 
-    public  function addRoom(Request $request, $id)
-    {
 
-        $this->validate($request, [
-            'room_number' => 'required|string',
-            'hotel_id' => 'required|integer',
-            'description' => 'required|string',
-            'room_type' => 'required|string',
-            'person_allowed' => 'required|integer',
-            'max_person_allowed' => 'required|integer',
-            'rate' => 'required|integer',
-            'price' => 'required|integer',
-        ]);
 
-        $hotelRoom = HotelRoom::create($request->all());
-
-        if (!empty($request['images'])) {
-            foreach ($request['images'] as $img) {
-                $hotelImage = new HotelImage();
-                $name = time() . '.' . $img->getClientOriginalExtension();
-                $destinationPath = public_path('/hotels/image');
-                $img->move($destinationPath, $name);
-                $hotelImage->room_id = $hotelRoom->id;
-                $hotelImage->hotel_id = $id;
-                $hotelImage->image_path = ENV('APP_URL') . '/hotels/image/' . $name;
-                $hotelImage->save();
-            }
-        }
-
-        return back()->with('success', 'Hotel  added successfully');
-    }
-
-    protected  function  roomUpdate(Request  $request, $id)
+    protected function roomUpdate(Request $request, $id)
     {
         $this->validate($request, [
             'room_number' => 'required|string',
@@ -158,7 +148,6 @@ class HotelController extends Controller
         $hotelRoom->rate = $request['rate'];
         $hotelRoom->price = $request['price'];
 
-
         $hotelRoom->save();
         if (!empty($request['images'])) {
             foreach ($request['images'] as $img) {
@@ -168,14 +157,15 @@ class HotelController extends Controller
                 $img->move($destinationPath, $name);
                 $hotelImage->room_id = $hotelRoom->id;
                 $hotelImage->hotel_id = $id;
-                $hotelImage->image_path = ENV('APP_URL') . '/hotels/image/' . $name;
+                $hotelImage->image_path =
+                    ENV('APP_URL') . '/hotels/image/' . $name;
                 $hotelImage->save();
             }
         }
         return back()->with('success', 'Hotel room updated successfully');
     }
 
-    public  function  deleteRoom($id)
+    public function deleteRoom($id)
     {
         $hotel = HotelRoom::find($id);
         $hotel->deleted_at = now();
@@ -183,19 +173,17 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel Room is deleted successfully');
     }
 
-
     public function changeHotelStatus($id)
     {
         $hotel = Hotel::find($id);
-        if ($hotel->enabled == 0)
+        if ($hotel->enabled == 0) {
             $hotel->enabled = 1;
-        else
+        } else {
             $hotel->enabled = 0;
+        }
         $hotel->save();
         return back();
     }
-
-
 
     public function imageDelete($id)
     {
@@ -204,15 +192,13 @@ class HotelController extends Controller
         return back();
     }
 
-    public function saveImage($hotel, $image)
+    public function saveImage($image, $name, $folder)
     {
         if ($image != null) {
-            $uniqueName = $hotel->getUniqueName();
-            $name = $uniqueName . "." . $image->getClientOriginalExtension();
-            $destinationPath = public_path("/hotels/$uniqueName");
-            $image->move($destinationPath, $name);
-            $hotel->logo = asset("hotels/$uniqueName/$name");
-            $hotel->save();
+            $name = $name . '.' . $image->getClientOriginalExtension();
+            $image->move(storage_path('app/public/' . $folder), $name);
+            return asset('storage/' . $folder . '/' . $name);
         }
+        return null;
     }
 }

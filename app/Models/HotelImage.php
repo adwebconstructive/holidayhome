@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelImage extends Model
 {
-    protected $table= 'hotel_images';
+
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }

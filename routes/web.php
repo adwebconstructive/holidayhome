@@ -33,7 +33,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['prefix' => '{id?}/room'], function(){
             Route::get('create', 'HotelController@createRoom')->name('hotel.room.create');
-            Route::get('', 'HotelController@saveRoom')->name('hotel.room.store');
+            Route::post('', 'HotelController@saveRoom')->name('hotel.room.store');
         });
 
     });
