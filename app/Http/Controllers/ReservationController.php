@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\EmailHelper;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -32,18 +34,10 @@ class ReservationController extends Controller
 
    public function store(Request $request){
        
-    $this->validate($request, [
-            'hotel_id' => 'required|string',
-            'room_id' => 'required|integer',
-            'from' => 'required|string',
-            'to' => 'required|string',
-        ]);
-        
-    
-        
+        $params = $request->validate(config('settings.reservation.creation_validation_rules'));
 
-        $from = Carbon::parse($request['from']);
-        $to = Carbon::parse($request['to']);
+        $from = Carbon::parse($params['from']);
+        $to = Carbon::parse($params['to']);
         $newDateTime = Carbon::now()->addMonth(3);
 
         if($from == $to ){
@@ -59,12 +53,20 @@ class ReservationController extends Controller
         }
 
         $room = HotelRoom::find($request['room_id']);
-
+        $user = User::find(1);
         $diff_in_days = $to->diffInDays($from);;
-        $request['rate'] =  $room->rate * $diff_in_days ;
-        $request['reserved_by'] = "1";
+        $params['rate'] =  $room->rate * $diff_in_days ;
+        $params['reserved_by'] = $user->id;
 
-        Reservation::create($request->all());
+        $book= Reservation::create($params);
+
+        $full_details = Reservation::where('id',$book->id)->with('hotel','room')->first();
+      
+        $admin = User::find(2);
+
+        $email = new EmailHelper();
+        $email->sendSuccessReservationAdminEmail($full_details,$user, $admin->email);
+        $email->sendSuccessReservationUserEmail($full_details, $user->email);
 
         return back()->with('success', 'Room  booked successfully');
     }
