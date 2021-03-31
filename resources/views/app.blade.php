@@ -36,6 +36,8 @@
     <script src="{{ asset('dist/js/pages/dashboard3.js')}}"></script>
     <!-- SweetAlert -->
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    <!--AlpineJS-->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
 
 <body class="hold-transition sidebar-mini">

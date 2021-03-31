@@ -34,20 +34,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => '{id?}/room'], function(){
             Route::get('create', 'HotelController@createRoom')->name('hotel.room.create');
             Route::post('', 'HotelController@saveRoom')->name('hotel.room.store');
+            Route::post('{room_id?}', 'HotelController@updateRoom')->name('hotel.room.update');
+            Route::get('delete/{room_id?}', 'HotelController@deleteRoom')->name('hotel.room.delete');
         });
-
     });
-
-    Route::get('hotel-add-more/{id}', 'HotelController@moreView');
-    Route::post('hotel-image-add/{id}', 'HotelController@addImage')->name('add.hotel.image');
-    Route::post('hotel-room-add/{id}', 'HotelController@addRoom')->name('add.hotel.room');
-    Route::get('change-hotel-status/{id}', 'HotelController@changeHotelStatus');
-
-    Route::get('hotels/room-create/{id}', 'HotelController@roomIndex');
-
-    Route::post('hotels/room-update/{id}', 'HotelController@roomUpdate')->name('room.update');
-    Route::get('hotels/room-edit/{id}', 'HotelController@editRoomIndex');
-    Route::get('hotels/room-delete/{id}', 'HotelController@deleteRoom');
-
-    Route::get('hotels/image-delete/{id}', 'HotelController@imageDelete');
 });

@@ -84,21 +84,15 @@ class HotelController extends Controller
                 $hotelRoom->images()->create(['image_path' => $image_path]);
             }
         }
-        return back()->with('success', 'Hotel added successfully');
+        return back()->with('success', 'Hotel room added successfully!');
     }
 
-    public function editRoomIndex($id)
+    public function updateRoom(Request $request, $id, $room_id)
     {
-        $hotelRoom = HotelRoom::findOrFail($id);
-        return view('admin.create-room', compact('hotelRoom'));
-    }
-
-    public function moreView($id)
-    {
-        $hotel = Hotel::with('hotelRoom.roomImage', 'hotelImage')
-            ->where('id', $id)
-            ->first();
-        return view('admin.add-more', compact('hotel'));
+        $params = $request->validate(config('settings.hotel.room_creation_validation_rules'));
+        $hotelRoom = HotelRoom::findOrFail($room_id);
+        $hotelRoom->update($params);
+        return back()->with('success', 'Hotel room updated successfully!');
     }
 
     public function addImage(Request $request, $id)
@@ -123,54 +117,11 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel image added successfully');
     }
 
-
-
-    protected function roomUpdate(Request $request, $id)
+    public function deleteRoom($id, $room_id)
     {
-        $this->validate($request, [
-            'room_number' => 'required|string',
-            'id' => 'required|integer',
-            'description' => 'required|string',
-            'room_type' => 'required|string',
-            'person_allowed' => 'required|integer',
-            'max_person_allowed' => 'required|integer',
-            'rate' => 'required|integer',
-            'price' => 'required|integer',
-        ]);
-
-        $hotelRoom = HotelRoom::find($id);
-        $hotelRoom->hotel_id = $request['id'];
-        $hotelRoom->room_number = $request['room_number'];
-        $hotelRoom->description = $request['description'];
-        $hotelRoom->room_type = $request['room_type'];
-        $hotelRoom->person_allowed = $request['person_allowed'];
-        $hotelRoom->max_person_allowed = $request['max_person_allowed'];
-        $hotelRoom->rate = $request['rate'];
-        $hotelRoom->price = $request['price'];
-
-        $hotelRoom->save();
-        if (!empty($request['images'])) {
-            foreach ($request['images'] as $img) {
-                $hotelImage = new HotelImage();
-                $name = time() . '.' . $img->getClientOriginalExtension();
-                $destinationPath = public_path('/hotels/image');
-                $img->move($destinationPath, $name);
-                $hotelImage->room_id = $hotelRoom->id;
-                $hotelImage->hotel_id = $id;
-                $hotelImage->image_path =
-                    ENV('APP_URL') . '/hotels/image/' . $name;
-                $hotelImage->save();
-            }
-        }
-        return back()->with('success', 'Hotel room updated successfully');
-    }
-
-    public function deleteRoom($id)
-    {
-        $hotel = HotelRoom::find($id);
-        $hotel->deleted_at = now();
-        $hotel->save();
-        return back()->with('success', 'Hotel Room is deleted successfully');
+        $hotel = HotelRoom::find($room_id);
+        $hotel->delete();
+        return back()->with('success', 'Hotel Room is deleted successfully!');
     }
 
     public function changeHotelStatus($id)
@@ -182,13 +133,6 @@ class HotelController extends Controller
             $hotel->enabled = 0;
         }
         $hotel->save();
-        return back();
-    }
-
-    public function imageDelete($id)
-    {
-        HotelImage::where('id', $id)->delete();
-
         return back();
     }
 

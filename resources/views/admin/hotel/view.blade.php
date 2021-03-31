@@ -10,7 +10,15 @@
             <div class="col-12">
                 <div class="card bg-info text-white">
                     <div class="card-body">
-                        <h1>{{ $hotel->name }}</h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h1>{{ $hotel->name }}</h1>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <button class="btn btn-default" data-toggle="modal" data-target="#createModal">Create
+                                    Room</button>
+                            </div>
+                        </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
@@ -53,59 +61,132 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button class="btn btn-sm btn-primary">Edit Details</button>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                            data-target="#editModal{{$room->id}}">Edit Details</button>
                         <button class="btn btn-sm btn-success">Add Images</button>
-                        <a class="btn btn-sm btn-danger confirm" href="#">Delete Room</a>
+                        <a class="btn btn-sm btn-danger confirm" href="{{ route('hotel.room.delete', ['id' => $hotel->id, 'room_id' => $room->id]) }}">Delete Room</a>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="editModal{{$room->id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="editModal{{$room->id}}Label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            {!! Form::model($room, ['url' => route('hotel.room.update', ['id' => $hotel->id, 'room_id' => $room->id])]) !!}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit room details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="contact_person">Room Number</label>
+                                        {!! Form::text('room_number', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Room Number', 'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="contact_person">Room Type</label>
+                                        {!! Form::text('room_type', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Room Type', 'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="contact_person">Description</label>
+                                        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Description', 'required']) !!}
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="contact_person">Person Allowed</label>
+                                        {!! Form::text('person_allowed', null, ['class' => 'form-control', 'placeholder'
+                                        => 'Person Allowed', 'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="max_person_allowed">Max Person Allowed</label>
+                                        {!! Form::text('max_person_allowed', null, ['class' => 'form-control',
+                                        'placeholder' => 'Max Person Allowed', 'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="max_person_allowed">Rate</label>
+                                        {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Rate', 'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="price">Price</label>
+                                        {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Price', 'required']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            {!! Form::close() !!}
+                        </div>
                     </div>
                 </div>
 
             </div>
             @endforeach
-            <div class="col-md-4 py-2">
-                <div class="card h-100">
-                    <div class="card-body h-100">
-                        <form method="post" action="{{ route('hotel.room.store',$hotel->id) }}" enctype="multipart/form-data">
-                            {{csrf_field()}}
-                            <input type="hidden" name="hotel_id" value="{{$hotel->id}}">
+
+            <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        {!! Form::open(['url' => route('hotel.room.store', ['id' => $hotel->id])]) !!}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="contact_person">Room Number</label>
-                                    <input name="room_number" class="form-control" value="{{ old('room_number') }}" placeholder="Room Number" required>
+                                    {!! Form::text('room_number', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Room Number', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="contact_person">Room Type</label>
-                                    <input name="room_type" class="form-control" value="{{ old('room_type') }}" placeholder="Room type" required>
+                                    {!! Form::text('room_type', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Room Type', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="contact_person">Description</label>
-                                    <input name="description" class="form-control" value="{{ old('description') }}" placeholder="Description" required>
+                                    {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Description', 'required']) !!}
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="contact_person">Person Allowed</label>
-                                    <input type="number" name="person_allowed" class="form-control" value="{{ old('person_allowed') }}" placeholder="Person allowed" required>
+                                    {!! Form::text('person_allowed', null, ['class' => 'form-control', 'placeholder'
+                                    => 'Person Allowed', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="max_person_allowed">Max Person Allowed</label>
-                                    <input type="number" name="max_person_allowed" class="form-control" value="{{ old('max_person_allowed') }}" placeholder="Max Person Allowed" required>
+                                    {!! Form::text('max_person_allowed', null, ['class' => 'form-control',
+                                    'placeholder' => 'Max Person Allowed', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="max_person_allowed">Rate</label>
-                                    <input type="number" name="rate" class="form-control" value="{{ old('Rate') }}" placeholder="Rate" required>
+                                    {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Rate', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="price">Price</label>
-                                    <input type="number" name="price" class="form-control" value="{{ old('Price') }}" placeholder="Price" required>
-                                </div>
-                                <div class="form-group col-md-8">
-                                    <label class="col-md-12">Images</label>
-                                    <input type="file" class="form-control-file" multiple name="images[]">
+                                    {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Price', 'required']) !!}
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 text-right">
-                                <button type="submit" class="btn btn-primary">Create Room</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create Room</button>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -113,5 +194,5 @@
         </div>
     </div>
 </div>
-</div>
+
 @endsection
