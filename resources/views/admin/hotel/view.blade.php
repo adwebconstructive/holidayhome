@@ -61,9 +61,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal"
-                            data-target="#editModal{{$room->id}}">Edit Details</button>
-                        <button class="btn btn-sm btn-success">Add Images</button>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal{{$room->id}}">Edit Details</button>
+                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#imageModal{{$room->id}}">Add Images</button>
                         <a class="btn btn-sm btn-danger confirm" href="{{ route('hotel.room.delete', ['id' => $hotel->id, 'room_id' => $room->id]) }}">Delete Room</a>
                     </div>
                 </div>
@@ -117,6 +116,33 @@
                                         {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' =>
                                         'Price', 'required']) !!}
                                     </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="imageModal{{$room->id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="imageModal{{$room->id}}Label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            {!! Form::model($room, ['url' => route('hotel.room.image', ['id' => $hotel->id, 'room_id' => $room->id])])
+                            !!}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Upload images</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" multiple>
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
