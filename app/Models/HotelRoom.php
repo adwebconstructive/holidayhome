@@ -19,12 +19,12 @@ class HotelRoom extends Model
 
     public function hotel()
     {
-        return $this->belongsTo('App\Hotel');
+        return $this->belongsTo('App\Models\Hotel');
     }
 
-    public function roomImage()
+    public function images()
     {
-        return $this->hasMany('App\Models\HotelImage', 'room_id');
+        return $this->morphMany('App\Models\HotelImage', 'imageable');
     }
     
     public function getUniqueName()

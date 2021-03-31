@@ -29,9 +29,22 @@
         <div class="row">
             @foreach ($hotel->rooms as $room)
             <div class="col-md-4 py-2">
-                <div class="card text-white bg-success h-100">
+                <div class="card h-100">
+                    @if($room->images->first())
+                    <img class="card-img-top" style="height: 150px" src="{{ $room->images->first()->image_path }}"" alt="Card image cap">
+                    @else
+                    <div class="text-center">
+                        <div class="form-group">
+                            <!-- <label for="customFile">Custom File</label> -->
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile"></label>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="card-body">
-                        <h4>Room no: {{ $room->room_number }}</h4>
+                        <h4 class="text-primary">Room no: {{ $room->room_number }}</h4>
                         <hr>
                         <p>{{ $room->description }}</p>
                         <p>Maximum person allowed: {{ $room->max_person_allowed }}</p>

@@ -78,10 +78,10 @@ class HotelController extends Controller
     {
         $params = $request->validate(config('settings.hotel.room_creation_validation_rules'));
         $hotelRoom = HotelRoom::create(['hotel_id' => $id] + $params);
-        if ($request->get('images') != null) {
-            foreach ($request->get('images') as $image) {
+        if ($request->file('images') != null) {
+            foreach ($request->file('images') as $image) {
                 $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
-                HotelImage::create(['image_path' => $image_path, 'imageable_id' => $hotelRoom->id, HotelRoom::class]);
+                $hotelRoom->images()->create(['image_path' => $image_path]);
             }
         }
         return back()->with('success', 'Hotel added successfully');
