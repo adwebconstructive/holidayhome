@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -40,3 +40,10 @@ Route::group(['prefix' => 'admin'], function () {
         });
     });
 });
+
+Route::group(['prefix' => 'reservation'], function () {
+        Route::get('', 'ReservationController@index');
+        Route::get('create', 'ReservationController@create')->name('reservation.create');
+        Route::post('store', 'ReservationController@store')->name('reservation.store');
+       
+    });
