@@ -23,8 +23,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
 
     <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-  <!-- Select2 -->
+    <!-- Select2 -->
 
+    <!-- FilePond-->
+    <link rel="stylesheet" href="https://unpkg.com/filepond/dist/filepond.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" />
 
 
 
@@ -53,11 +56,15 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 
-
-    
-    
     <!--AlpineJS-->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+
+    <script src="https://unpkg.com/filepond-plugin-image-preview"></script>
+    <script src="https://unpkg.com/filepond"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-filepond"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">

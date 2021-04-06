@@ -10,11 +10,8 @@ class HotelRoom extends Model
         'hotel_id',
         'room_number',
         'description',
-        'room_type',
-        'person_allowed',
         'max_person_allowed',
         'rate',
-        'price',
     ];
 
     public function hotel()

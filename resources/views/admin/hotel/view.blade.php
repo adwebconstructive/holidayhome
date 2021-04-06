@@ -67,8 +67,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editModal{{$room->id}}" tabindex="-1" role="dialog"
-                    aria-labelledby="editModal{{$room->id}}Label" aria-hidden="true">
+                <div class="modal fade" id="editModal{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="editModal{{$room->id}}Label" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             {!! Form::model($room, ['url' => route('hotel.room.update', ['id' => $hotel->id, 'room_id' => $room->id])]) !!}
@@ -80,26 +79,10 @@
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="contact_person">Room Number</label>
+                                    <div class="form-group col-md-4">
+                                        <label for="room_number">Room Number</label>
                                         {!! Form::text('room_number', null, ['class' => 'form-control', 'placeholder' =>
                                         'Room Number', 'required']) !!}
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="contact_person">Room Type</label>
-                                        {!! Form::text('room_type', null, ['class' => 'form-control', 'placeholder' =>
-                                        'Room Type', 'required']) !!}
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="contact_person">Description</label>
-                                        {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' =>
-                                        'Description', 'required']) !!}
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label for="contact_person">Person Allowed</label>
-                                        {!! Form::text('person_allowed', null, ['class' => 'form-control', 'placeholder'
-                                        => 'Person Allowed', 'required']) !!}
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="max_person_allowed">Max Person Allowed</label>
@@ -107,14 +90,13 @@
                                         'placeholder' => 'Max Person Allowed', 'required']) !!}
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="max_person_allowed">Rate</label>
-                                        {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>
-                                        'Rate', 'required']) !!}
+                                        <label for="rate">Rate / Night</label>
+                                        {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>'Rate', 'required']) !!}
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="price">Price</label>
-                                        {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' =>
-                                        'Price', 'required']) !!}
+                                    <div class="form-group col-md-12">
+                                        <label for="description">Description</label>
+                                        {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' =>
+                                        'Description', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -127,8 +109,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="imageModal{{$room->id}}" tabindex="-1" role="dialog"
-                    aria-labelledby="imageModal{{$room->id}}Label" aria-hidden="true">
+                <div class="modal fade" id="imageModal{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="imageModal{{$room->id}}Label" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             {!! Form::model($room, ['url' => route('hotel.room.image', ['id' => $hotel->id, 'room_id' => $room->id])])
@@ -153,12 +134,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             @endforeach
 
-            <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         {!! Form::open(['url' => route('hotel.room.store', ['id' => $hotel->id])]) !!}
@@ -170,26 +149,10 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="contact_person">Room Number</label>
+                                <div class="form-group col-md-4">
+                                    <label for="room_number">Room Number</label>
                                     {!! Form::text('room_number', null, ['class' => 'form-control', 'placeholder' =>
                                     'Room Number', 'required']) !!}
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="contact_person">Room Type</label>
-                                    {!! Form::text('room_type', null, ['class' => 'form-control', 'placeholder' =>
-                                    'Room Type', 'required']) !!}
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label for="contact_person">Description</label>
-                                    {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' =>
-                                    'Description', 'required']) !!}
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="contact_person">Person Allowed</label>
-                                    {!! Form::text('person_allowed', null, ['class' => 'form-control', 'placeholder'
-                                    => 'Person Allowed', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="max_person_allowed">Max Person Allowed</label>
@@ -197,15 +160,15 @@
                                     'placeholder' => 'Max Person Allowed', 'required']) !!}
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="max_person_allowed">Rate</label>
-                                    {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>
-                                    'Rate', 'required']) !!}
+                                    <label for="rate">Rate / Night</label>
+                                    {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>'Rate', 'required']) !!}
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="price">Price</label>
-                                    {!! Form::text('price', null, ['class' => 'form-control', 'placeholder' =>
-                                    'Price', 'required']) !!}
+                                <div class="form-group col-md-12">
+                                    <label for="description">Description</label>
+                                    {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' =>
+                                    'Description', 'required']) !!}
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -216,7 +179,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
