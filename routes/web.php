@@ -35,7 +35,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('create', 'HotelController@createRoom')->name('hotel.room.create');
             Route::post('', 'HotelController@saveRoom')->name('hotel.room.store');
             Route::post('{room_id?}', 'HotelController@updateRoom')->name('hotel.room.update');
-            Route::get('image/{room_id?}', 'HotelController@addImage')->name('hotel.room.image');
+            Route::post('image/{room_id?}', 'HotelController@addImage')->name('hotel.room.image');
             Route::get('delete/{room_id?}', 'HotelController@deleteRoom')->name('hotel.room.delete');
         });
     });

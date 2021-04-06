@@ -40,18 +40,15 @@
     <!-- AdminLTE -->
     <script src="{{ asset('dist/js/adminlte.js')}}"></script>
 
-    <!-- OPTIONAL SCRIPTS -->
-    <script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('dist/js/demo.js')}}"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('dist/js/pages/dashboard3.js')}}"></script>
     <!-- SweetAlert -->
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 
+    <!-- Moment.js -->
     <script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
 
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+
+    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>

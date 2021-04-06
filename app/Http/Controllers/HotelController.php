@@ -115,6 +115,18 @@ class HotelController extends Controller
         return back();
     }
 
+    public function addImage($id, $room_id, Request $request)
+    {
+        $hotelRoom = HotelRoom::findOrFail($room_id);
+        if ($request->file('images') != null) {
+            foreach ($request->file('images') as $image) {
+                $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
+                $hotelRoom->images()->create(['image_path' => $image_path]);
+            }
+        }
+        return back()->with('success', 'Images uploaded!');
+    }
+
     public function saveImage($image, $name, $folder)
     {
         if ($image != null) {
