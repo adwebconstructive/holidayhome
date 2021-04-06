@@ -48,15 +48,6 @@
                         <label for="contact_phone">Contact Phone</label>
                         <input type="number" maxlength="10" name="contact_phone" class="form-control" value="{{old('contact_phone')}}" id="contact_phone" placeholder="Contact Phone" required>
                     </div>
-                    <div class="form-group col-6">
-                        <label for="exampleInputFile">Logo</label>
-                        <div class="input-group">
-
-                            <input type="file" class="form-control" name="logo">
-
-
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- /.card-body -->

@@ -9,7 +9,7 @@ class Hotel extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'address', 'city', 'state', 'country', 'pin_code', 'contact_person', 'contact_email', 'contact_phone', 'logo'];
+    protected $fillable = ['name', 'address', 'city', 'state', 'country', 'pin_code', 'contact_person', 'contact_email', 'contact_phone', 'check_in_time', 'check_out_time'];
 
     public  function  rooms()
     {
