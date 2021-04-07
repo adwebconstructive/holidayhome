@@ -15,9 +15,9 @@ class CreateHotelImagesTable extends Migration
     {
         Schema::create('hotel_images', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hotel_id');
-            $table->unsignedBigInteger('room_id')->nullable()->default(Null);
-            $table->string('image_path')->nullable()->default(Null);
+            $table->string('image_path');
+            $table->unsignedBigInteger('imageable_id');
+            $table->string('imageable_type');
             $table->timestamps();
         });
     }

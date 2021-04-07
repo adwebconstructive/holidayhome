@@ -17,6 +17,9 @@
         <!-- bootstrap -->
         <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap/css/bootstrap.min.css')}}" />
 
+
+        <link rel="stylesheet" href="{{ asset('frontend/css/style.css')}}" />
+
         <!-- uniform -->
         <link type="text/css" rel="stylesheet" href="{{ asset('frontend/assets/uniform/css/uniform.default.min.css')}}" />
 

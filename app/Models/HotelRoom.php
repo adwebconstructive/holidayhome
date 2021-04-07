@@ -6,12 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelRoom extends Model
 {
-    protected $table= 'hotel_rooms';
+    protected $fillable = [
+        'hotel_id',
+        'room_number',
+        'description',
+        'room_type',
+        'person_allowed',
+        'max_person_allowed',
+        'rate',
+        'price',
+    ];
 
-    protected  $fillable =['hotel_id','room_number','description','room_type','person_allowed','max_person_allowed','rate','price'];
-
-    public  function  roomImage(){
-        return $this->hasMany('App\Models\HotelImage','room_id');
+    public function hotel()
+    {
+        return $this->belongsTo('App\Models\Hotel');
     }
 
+    public function images()
+    {
+        return $this->morphMany('App\Models\HotelImage', 'imageable');
+    }
+    
+    public function getUniqueName()
+    {
+        return $this->hotel->id . '-'. $this->id;
+    }
 }

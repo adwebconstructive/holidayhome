@@ -23,28 +23,27 @@
 <div class="container">
 <div class="row">
 <div class="col-sm-12 col-md-12">
-    <form role="form" class="wowload fadeInRight">
+    <form role="form" method="get" action="{{url('check-available')}}" class="wowload fadeInRight">
         <div class="form-group col-md-3">
-            <label>City</label>
-           <select class="form-control">
-                <option>Select City</option>
+            <label>Hotel</label>
+           <select class="form-control" name="hotel_id">
+                <option>Select Hotel</option>
+                @foreach ($hotels as $hotel)
+                    <option value="{{$hotel->id}}">{{$hotel->name}}/{{$hotel->city}}</option>
+                @endforeach
            </select>
         </div>     
         <div class="form-group col-md-3">
             <label>From date</label>
-            <input type="date" class="form-control"  placeholder="From">
+            <input type="date" class="form-control"  placeholder="From" name="from">
         </div>    
         <div class="form-group col-md-3">
             <label>To date</label>
-            <input type="date" class="form-control"  placeholder="To">
+            <input type="date" class="form-control"  placeholder="To" name="to">
         </div>  
-        <div class="form-group col-md-3">
-            <label>Number Of Guest</label>
-            <input type="number" class="form-control"  placeholder="">
-        </div>   
        
-        <div class="form-group col-md-12" style="margin-top: 1.4em">   
-        <button class="btn btn-default">Check Avalabletiy</button>
+        <div class="form-group col-md-3" style="margin-top: 1.4em">   
+        <button class="btn btn-default">Check Availability</button>
         </div>
     </form>    
 </div>
@@ -59,6 +58,7 @@
 <div class="spacer services wowload fadeInUp">
 <div class="container">
     <div class="row">
+        @foreach ($hotels as $hotel)
         <div class="col-sm-4">
             <!-- RoomCarousel -->
             <div id="RoomCarousel" class="carousel slide" data-ride="carousel">
@@ -72,42 +72,9 @@
                 <a class="right carousel-control" href="#RoomCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
             </div>
             <!-- RoomCarousel-->
-            <div class="caption">Rooms<a href="rooms-tariff.php" class="pull-right"><i class="fa fa-edit"></i></a></div>
+            <div class="caption">{{$hotel->name}} / {{$hotel->city}}<a href="rooms-tariff.php" class="pull-right"><i class="fa fa-bed"></i></a></div>
         </div>
-
-
-        <div class="col-sm-4">
-            <!-- RoomCarousel -->
-            <div id="TourCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                <div class="item active"><img src="frontend/images/photos/6.jpg" class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="frontend/images/photos/3.jpg"  class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="frontend/images/photos/4.jpg"  class="img-responsive" alt="slide"></div>
-                </div>
-                <!-- Controls -->
-                <a class="left carousel-control" href="#TourCarousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
-                <a class="right carousel-control" href="#TourCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
-            </div>
-            <!-- RoomCarousel-->
-            <div class="caption">Tour Packages<a href="gallery.php" class="pull-right"><i class="fa fa-edit"></i></a></div>
-        </div>
-
-
-        <div class="col-sm-4">
-            <!-- RoomCarousel -->
-            <div id="FoodCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                <div class="item active"><img src="frontend/images/photos/1.jpg" class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="frontend/images/photos/2.jpg"  class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="frontend/images/photos/5.jpg"  class="img-responsive" alt="slide"></div>
-                </div>
-                <!-- Controls -->
-                <a class="left carousel-control" href="#FoodCarousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
-                <a class="right carousel-control" href="#FoodCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
-            </div>
-            <!-- RoomCarousel-->
-            <div class="caption">Food and Drinks<a href="gallery.php" class="pull-right"><i class="fa fa-edit"></i></a></div>
-        </div>
+        @endforeach
     </div>
 </div>
 </div>
