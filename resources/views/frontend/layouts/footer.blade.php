@@ -1,5 +1,5 @@
 
-<footer class="spacer">
+{{-- <footer class="spacer">
     <div class="container">
         <div class="row">
             <div class="col-sm-5">
@@ -40,23 +40,8 @@
     <!--/.container-->    
 
 <!--/.footer-bottom--> 
-</footer>
+</footer> --}}
 
-<div class="text-center copyright">Powered by <a href="http://thebootstrapthemes.com">thebootstrapthemes.com</a></div>
-
-<a href="#home" class="toTop scroll"><i class="fa fa-angle-up"></i></a>
+<div class="text-center copyright" style="padding: 2em;font-size:16px">Copyright © 2017 West Bengal Power Development Corporation limited, All rights reserved. </div>
 
 
-
-
-<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
-<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-<!-- The container for the modal slides -->
-<div class="slides"></div>
-<!-- Controls for the borderless lightbox -->
-<h3 class="title">title</h3>
-<a class="prev">‹</a>
-<a class="next">›</a>
-<a class="close">×</a>
-<!-- The modal dialog, which will be used to wrap the lightbox content -->    
-</div>

@@ -78,29 +78,6 @@ footer .subscribe .social a{font-size: 1.5em;margin-right: 0.25em;}
 
 
 
-/*unform*/
-.radio-inline{padding-top: 4px;padding-left: 0;}
-.form-horizontal .radio{padding-top: 3px;}
-.radio-inline input[type="radio"]{margin-left: 0;}
-div.radio{margin-right: 10px;}
-div.radio span{background:url(../images/radio.png) 0 20px !important;}
-
-div.radio span,div.radio input{width: 20px;height: 20px;}
-div.radio span.checked{background-position: 0 0 !important;}
-
-
-.form-control{border: 1px solid #999;border-radius:0;box-shadow:none !important;}
-.form-control:focus{border: 1px solid #bbb;}
-div.selector{border:none;border: 1px solid #999;height: 33px !important; padding:3px 10px !important; border-radius: 0; font-size: 14px; background: #fff !important; width: 100% !important;}
-div.selector:hover{border-color: #bbb;}
-div.selector span{height: 36px;padding: 0; background: url(../images/drop.png) right 9px no-repeat !important;color: #8d8d8d; width: 100% !important;margin-right: 20px;}
-div.selector:hover span{ background-position:right 9px !important; color: #282828;}
-div.selector select{height: 36px !important;top: -2px; cursor: pointer; background-color: #fff;}
-div.selector option{ padding: 10px;}
-.checkbox label{padding-left: 0;}
-.checkbox input[type=checkbox]{margin-left: -10px;}
-/*unform*/
-
 
 /*rooms and tariff*/
 .rooms{margin-bottom: 2em;}

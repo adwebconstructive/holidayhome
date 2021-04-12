@@ -15,7 +15,7 @@
 
 
         <!-- bootstrap -->
-        <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap/css/bootstrap.min.css')}}" />
+        {{-- <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap/css/bootstrap.min.css')}}" /> --}}
 
 
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css')}}" />
@@ -30,14 +30,16 @@
         <!-- gallery -->
         <link rel="stylesheet" href="{{ asset('frontend/assets/gallery/blueimp-gallery.min.css')}}">
 
-
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        {{-- <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap/css/bootstrap.min.css')}}" /> --}}
         <!-- favicon -->
         <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
         <link rel="icon" href="images/favicon.png" type="image/x-icon">
 
         <link rel="stylesheet" href="{{asset('frontend/assets/style.css')}}">
-
-       
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
             <script src="{{ asset('frontend/assets/jquery.js')}}"></script>
 
             <!-- wow script -->
@@ -62,6 +64,8 @@
             
             <!-- custom script -->
             <script src="{{ asset('frontend/assets/script.js')}}"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 
         </head>
 
