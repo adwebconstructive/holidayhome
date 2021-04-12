@@ -66,6 +66,20 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel deleted successfully');
     }
 
+    public function uploadHotelImages($id, Request $request)
+    {
+        $hotel = Hotel::findOrFail($id);
+        if ($request->file('images') != null) {
+            foreach ($request->file('images') as $image) {
+                $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
+                $hotelRoom->images()->create(['image_path' => $image_path]);
+            }
+        }
+        return back()->with('success', 'Images uploaded!');
+    }
+
+
+
     // Hotel Room 
 
     public function createRoom($id)

@@ -41,7 +41,6 @@
                                     <th>Address</th>
                                     <th>GSTN</th>
                                     <th>Contact Details</th>
-                                    <th>Logo</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,7 +51,6 @@
                                     <td>{{ $hotel->full_address }}</td>
                                     <td>{{$hotel->gstn}}</td>
                                     <td>{{$hotel->contact_person}} <br> {{$hotel->contact_phone}} <br> {{$hotel->contact_email}}</td>
-                                    <td><img src="{{$hotel->logo}}" width="100px" height="100px"></td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{url('admin/change-hotel-status',$hotel->id)}}" class="btn btn-warning">

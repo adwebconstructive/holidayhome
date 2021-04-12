@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'hotels'], function () {
         Route::get('', 'HotelController@index')->name('hotels.index');
         Route::get('create', 'HotelController@create');
+        Route::get('image', 'HotelController@saveImages');
         Route::get('{id?}', 'HotelController@view')->name('hotels.view');
         Route::get('edit/{id}', 'HotelController@edit');
         Route::post('', 'HotelController@store')->name('hotels.store');
