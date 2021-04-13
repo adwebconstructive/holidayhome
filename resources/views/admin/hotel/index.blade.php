@@ -7,7 +7,7 @@
         <!-- /.row -->
         <div class="row">
             <div class="col-12 mb-2">
-                <a href="{{url('admin/hotels/create')}}" type="button" class="btn btn-info">
+                <a href="{{route('hotel.create')}}" type="button" class="btn btn-info">
                     Add Hotel
                 </a>
             </div>
@@ -19,7 +19,7 @@
                         <h3 class="card-title">Hotels</h3>
 
                         <div class="card-tools">
-                            <form action="{{route('hotels.index')}}" method="get">
+                            <form action="{{route('hotel.index')}}" method="get">
                                 <div class="input-group input-group-sm" style="width: 250px;">
 
                                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search by name">
@@ -60,14 +60,14 @@
                                                 <i class="fas fa-arrow-circle-down"></i> Disable
                                                 @endif
                                             </a>
-                                            <a href="{{route('hotels.view',$hotel->id)}}" class="btn btn-default">
+                                            <a href="{{route('hotel.view',$hotel->id)}}" class="btn btn-default">
                                                 <i class="fas fa-eye"></i> View
                                             </a>
 
                                             <a href="{{url('admin/hotels/edit',$hotel->id)}}" class="btn btn-info">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a class="btn btn-danger confirm" href="{{route('delete.hotel',$hotel->id)}}">
+                                            <a class="btn btn-danger confirm" href="{{route('hotel.delete',$hotel->id)}}">
                                                 <i class="fas fa-trash"></i> Delete </a>
                                         </div>
                                     </td>
@@ -85,7 +85,7 @@
                                                 Are you sure ?
                                             </div>
                                             <div class="modal-footer justify-content-between">
-                                                <form action="{{route('delete.hotel',$hotel->id)}}" method="GET">
+                                                <form action="{{route('hotel.delete',$hotel->id)}}" method="GET">
                                                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                                 </form>
                                                 {{-- <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>--}}

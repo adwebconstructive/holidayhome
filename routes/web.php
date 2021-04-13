@@ -21,15 +21,15 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.dashboard');
     });
 
-    Route::group(['prefix' => 'hotels'], function () {
-        Route::get('', 'HotelController@index')->name('hotels.index');
-        Route::get('create', 'HotelController@create');
-        Route::get('image', 'HotelController@saveImages');
-        Route::get('{id?}', 'HotelController@view')->name('hotels.view');
+    Route::group(['prefix' => 'hotel'], function () {
+        Route::get('', 'HotelController@index')->name('hotel.index');
+        Route::get('create', 'HotelController@create')->name('hotel.create');
+        Route::get('image', 'HotelController@saveImages')->name('hotel.image');
+        Route::get('{id?}', 'HotelController@view')->name('hotel.view');
         Route::get('edit/{id}', 'HotelController@edit');
-        Route::post('', 'HotelController@store')->name('hotels.store');
-        Route::post('{id}', 'HotelController@update')->name('hotels.update');
-        Route::get('delete/{id}', 'HotelController@delete')->name('delete.hotel');
+        Route::post('', 'HotelController@store')->name('hotel.store');
+        Route::post('{id}', 'HotelController@update')->name('hotel.update');
+        Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
         Route::group(['prefix' => '{id?}/room'], function(){
             Route::get('create', 'HotelController@createRoom')->name('hotel.room.create');

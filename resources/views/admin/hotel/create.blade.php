@@ -4,7 +4,7 @@
 
 <div class="padding">
     <div class="content-wrapper">
-        <form method="post" action="{{route('hotels.store')}}" enctype="multipart/form-data">
+        <form method="post" action="{{route('hotel.store')}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="card-body">
                 <div class="row">
