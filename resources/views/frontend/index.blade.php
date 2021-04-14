@@ -42,6 +42,7 @@
 <!-- banner-->
 <!-- reservation-information -->
 <div id="information" class="spacer reserve-info ">
+    <div class="container-fuild">
     <div class="padding-2">
         <div class="row">
             <form role="form" method="get" action="{{url('availability')}}" class="home-form">
@@ -69,14 +70,16 @@
                 </div>
             </form>
         </div>
+        </div>
     </div>
     <!-- reservation-information -->
     <!-- services -->
     <div class="spacer services wowload fadeInUp">
+        <div class="container">
         <div class="padding-2">
             <div class="row">
                 <div class="col-md-12 center head-1">Policies</div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="center" style="font-size: 2em"> <i class="fa fa-check-circle" aria-hidden="true"></i>
                         </i></div>
 
@@ -107,7 +110,7 @@
                             natural calamity and unforeseen circumstance. </li>
                     </ul>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="center" style="font-size: 2em"> <i class="fa fa-times-circle" aria-hidden="true"></i>
                     </div>
                     <div class="center head-1">Rules only for Mumbai Guest House</div>
@@ -124,6 +127,8 @@
                         <li> <i class="fa fa-check" aria-hidden="true"></i> Maximum 2(two) attendants per patient are
                             allowed against one room.</li>
                     </ul>
+                </div>
+                <div class="col-md-12">
                     <div class="center head-1">Cancellation Charges</div>
                     <ul>
                         <li> <i class="fa fa-check" aria-hidden="true"></i> If cancelled more than 90 days before
@@ -135,6 +140,7 @@
                     </ul>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>
