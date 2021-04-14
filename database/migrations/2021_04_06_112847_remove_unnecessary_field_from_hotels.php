@@ -15,8 +15,8 @@ class RemoveUnnecessaryFieldFromHotels extends Migration
     {
         Schema::table('hotels', function (Blueprint $table) {
             $table->dropColumn(['logo']);
-            $table->string('check_in_time');
-            $table->string('check_out_time');
+            $table->string('check_in_time')->nullable()->default(null);
+            $table->string('check_out_time')->nullable()->default(null);
         });
     }
 
