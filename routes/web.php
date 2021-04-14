@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'HomeController@index');
-Route::get('check-available', 'HomeController@checkAvailable');
+Route::group(['prefix' => ''], function(){
+    Route::get('', 'HomeController@index');
+    Route::get('availability', 'HomeController@availability');
+});
 
 Route::group(['prefix' => 'admin'], function () {
     // Route::get('/dashboard', function () {

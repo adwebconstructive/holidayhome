@@ -44,7 +44,7 @@
 <div id="information" class="spacer reserve-info ">
     <div class="padding-2">
         <div class="row">
-            <form role="form" method="get" action="{{url('check-available')}}" class="home-form">
+            <form role="form" method="get" action="{{url('availability')}}" class="home-form">
                 <div class=" col-sm-1 col-xs-12"></div>
                 <div class="col-sm-3 col-xs-12">
                     <label>Hotel</label>
