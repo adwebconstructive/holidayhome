@@ -117,6 +117,13 @@
             text: "{{ session()->get('error') }}",
         });
         @endif
+        @if($errors->any())
+
+        @foreach ($errors->all() as $error)
+            console.log('{{ $error }}');
+        @endforeach
+
+        @endif
     });
 </script>
 

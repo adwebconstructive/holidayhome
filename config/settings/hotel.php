@@ -34,4 +34,9 @@ return [
         'rate' => 'required|integer',
         'price' => 'required|integer',
     ],
+
+    'image_upload_validation_rules' => [
+        'hotel_id' => 'required',
+        'images' => 'required'
+    ]
 ];

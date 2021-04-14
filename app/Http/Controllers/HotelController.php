@@ -33,8 +33,6 @@ class HotelController extends Controller
     {
         $params = $request->validate(config('settings.hotel.creation_validation_rules'));
         $hotel = Hotel::create($params);
-        $hotel->logo = $this->saveImage($request->file('logo'), $hotel->getUniqueName(), 'hotel');
-        $hotel->save();
         return back()->with('success', 'Hotel added successfully!');
     }
 
@@ -54,8 +52,7 @@ class HotelController extends Controller
     {
         $params = $request->validate(config('settings.hotel.update_validation_rules'));
         $hotel = Hotel::find($id);
-        $path = $this->saveImage($request->file('logo'), $hotel->getUniqueName(), 'hotel');
-        $hotel->update($params + ['logo' => $path]);
+        $hotel->update($params);
         return back()->with('success', 'Hotel updated successfully!');
     }
 
@@ -66,13 +63,14 @@ class HotelController extends Controller
         return back()->with('success', 'Hotel deleted successfully');
     }
 
-    public function uploadHotelImages($id, Request $request)
+    public function uploadHotelImages(Request $request)
     {
-        $hotel = Hotel::findOrFail($id);
+        $params = $request->validate(config('settings.hotel.image_upload_validation_rules'));
+        $hotel = Hotel::findOrFail($params['hotel_id']);
         if ($request->file('images') != null) {
             foreach ($request->file('images') as $image) {
-                $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
-                $hotelRoom->images()->create(['image_path' => $image_path]);
+                $image_path = $this->saveImage($image, 'hotel');
+                $hotel->images()->create(['image_path' => $image_path]);
             }
         }
         return back()->with('success', 'Images uploaded!');
@@ -134,17 +132,18 @@ class HotelController extends Controller
         $hotelRoom = HotelRoom::findOrFail($room_id);
         if ($request->file('images') != null) {
             foreach ($request->file('images') as $image) {
-                $image_path = $this->saveImage($image, $hotelRoom->getUniqueName(), 'hotel/room');
+                $image_path = $this->saveImage($image, 'hotel/room');
                 $hotelRoom->images()->create(['image_path' => $image_path]);
             }
         }
         return back()->with('success', 'Images uploaded!');
     }
 
-    public function saveImage($image, $name, $folder)
+    public function saveImage($image, $folder)
     {
+        $unique_name = str_random(6);
         if ($image != null) {
-            $name = $name . '.' . $image->getClientOriginalExtension();
+            $name = $unique_name . '.' . $image->getClientOriginalExtension();
             $image->move(storage_path('app/public/' . $folder), $name);
             return asset('storage/' . $folder . '/' . $name);
         }

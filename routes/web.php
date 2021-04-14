@@ -17,17 +17,19 @@ Route::get('', 'HomeController@index');
 Route::get('check-available', 'HomeController@checkAvailable');
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    // Route::get('/dashboard', function () {
+    //     return view('admin.dashboard');
+    // });
 
     Route::group(['prefix' => 'hotel'], function () {
+
         Route::get('', 'HotelController@index')->name('hotel.index');
         Route::get('create', 'HotelController@create')->name('hotel.create');
-        Route::get('image', 'HotelController@saveImages')->name('hotel.image');
         Route::get('{id?}', 'HotelController@view')->name('hotel.view');
         Route::get('edit/{id}', 'HotelController@edit');
+
         Route::post('', 'HotelController@store')->name('hotel.store');
+        Route::post('image', 'HotelController@uploadHotelImages')->name('hotel.image');
         Route::post('{id}', 'HotelController@update')->name('hotel.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
