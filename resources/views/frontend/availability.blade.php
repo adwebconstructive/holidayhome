@@ -84,16 +84,16 @@
                                 <div class="col-md-12">
                                     @foreach($dateRange as $day)
                                     <div class="box-cal">
-                                        <div v-if="date_array.includes('{{$day}}')" class="">
+                                        <div v-if="date_array.includes('{{$day}}{{$room->id}}')" class="">
                                             <i class="fa fa-check " style="display: -webkit-inline-box;
-                    position: absolute;
-                    z-index: 1;
-                    font-size: 26px;
-                    color: #242b04;" aria-hidden="true"></i>
+                                            position: absolute;
+                                            z-index: 1;
+                                            font-size: 26px;
+                                            color: #242b04;" aria-hidden="true"></i>
                                         </div>
                                         <a href="#">
                                             <div class="date-as-calendar position-pixels"
-                                                v-on:click="getDate('{{ $day}}','{{$room->rate}}')">
+                                                v-on:click="getDate('{{ $day}}{{$room->id}}','{{$room->rate}}')">
                                                 <span class="day">{{Carbon\Carbon::parse($day)->format('d')}}</span>
                                                 <span class="month">{{Carbon\Carbon::parse($day)->format('M')}}</span>
                                             </div>
@@ -101,20 +101,23 @@
                                     </div>
                                     @endforeach
                                 </div>
-                                <div class="col-md-12">
-                                    <br>
-                                    <div class="pull-right txt-20">
-                                        <span v-if="total">₹ @{{total}} </span>
-                                        <span v-else>₹ {{$room->rate}}</span>
-                                        <input type="submit" class="btn btn-default" value="Book Now">
-                                    </div>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
+            <div class="col-md-12">
+                <br>
+                <br>
+                <div class="pull-right txt-20">
+                    <span v-if="total">₹ @{{total}} </span>
+                    <span v-else>₹ 0</span>
+                    <input type="submit" class="btn btn-default" value="Book Now">
+                </div>
+            </div>
+            <br>
         </div>
     </div>
 </div>
@@ -122,27 +125,22 @@
     new Vue({
     el: '#app',
     data: {
+        total:0,
         date_array:[],
-        total:'',
       },
       methods:{
             getDate: function (day,value) {
-                this.total= 0;
                 if(this.date_array.includes(day)){
+                    this.total= eval(this.total)- eval(value)
                     this.date_array.splice(this.date_array.indexOf(day), 1);
                 }
                 else{
+                    this.total= eval(this.total)+ eval(value)
                     this.date_array.push(day);
                     
                 }
-                if(this.date_array.length != 0){
-                    this.total = value * this.date_array.length;
-                }
-                else{
-                    this.total = value
-                }
-                console.log(this.date_array);
-                return;
+               
+      
             },
         }
 }); 

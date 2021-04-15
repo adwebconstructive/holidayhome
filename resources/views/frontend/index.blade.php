@@ -42,7 +42,6 @@
 <!-- banner-->
 <!-- reservation-information -->
 <div id="information" class="spacer reserve-info ">
-    <div class="container-fuild">
     <div class="padding-2">
         <div class="row">
             <form role="form" method="get" action="{{url('availability')}}" class="home-form">
@@ -69,7 +68,6 @@
                     <button class="btn btn-default">Check Availability</button>
                 </div>
             </form>
-        </div>
         </div>
     </div>
     <!-- reservation-information -->
