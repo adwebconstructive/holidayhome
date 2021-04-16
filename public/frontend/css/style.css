@@ -1,162 +1,171 @@
-
-.block{
+.block {
     padding: 1em;
-  border: 1px solid;
-  margin: 0em 1em;
-  box-shadow: 3px 3px 3px;
-  width: 100%;
+    border: 1px solid;
+    margin: 0em 1em;
+    box-shadow: 3px 3px 3px;
+    width: 100%;
 }
 
-.ml-1{
-    margin-left:0.5em
+.ml-1 {
+    margin-left: 0.5em;
 }
 
-.no{
+.no {
     text-align: center;
     font-size: 14px;
     margin-top: 1em;
 }
-.head-1{
+.head-1 {
     font-size: 24px;
     font-weight: 700;
     padding: 0.5em;
 }
 
-.head-2{
+.head-2 {
     font-size: 16px;
     padding: 0.5em;
 }
 
-form-control-lg, .input-group-lg > .form-control, .input-group-lg > .input-group-append > .btn, .input-group-lg > .input-group-append > .input-group-text, .input-group-lg > .input-group-prepend > .btn, .input-group-lg > .input-group-prepend > .input-group-text {
-    padding: .5rem 1rem;
+form-control-lg,
+.input-group-lg > .form-control,
+.input-group-lg > .input-group-append > .btn,
+.input-group-lg > .input-group-append > .input-group-text,
+.input-group-lg > .input-group-prepend > .btn,
+.input-group-lg > .input-group-prepend > .input-group-text {
+    padding: 0.5rem 1rem;
     font-size: 1.25rem;
     line-height: 1.5;
-    border-radius: .3rem;
+    border-radius: 0.3rem;
 }
 
-.center{
+.center {
     text-align: center;
 }
-.padding-2{
+.padding-2 {
     padding: 2em;
 }
-li{
+li {
     list-style: none;
     font-size: 16px;
     padding: 0.5em;
     text-align: justify;
     line-height: 25px;
 }
-ul{
-    padding: 0.5em;;
+ul {
+    padding: 0.5em;
 }
-.footer1{
-    padding:1em;
+.footer1 {
+    padding: 1em;
 }
-.banner{
-  max-height: 570px;
+.banner {
+    max-height: 570px;
 }
-.f-color>li>a{
+.f-color > li > a {
     color: #87857e;
-
 }
-.banner-text{
+.banner-text {
     color: #022535;
 }
-.home-form{
-    width: 100%;display: inline-flex;
+.home-form {
+    width: 100%;
+    display: inline-flex;
 }
-.my-select{
+.my-select {
     height: 36px;
 }
-.selector >span{
-    display:none;
+.selector > span {
+    display: none;
 }
 
 .date-as-calendar {
-    float:left;
+    float: left;
     font-variant: normal;
     font-style: normal;
     font-weight: normal;
     font-family: Arial;
     vertical-align: top;
     color: #303030;
-    background: #E0E0E0;
+    background: #e0e0e0;
     border: 1px solid #ccc;
     border-radius: 3px;
     overflow: hidden;
     box-shadow: 0px 2px 2px -2px black;
     margin: 0.2em;
-  }
-  
-  .date-as-calendar .weekday,
-  .date-as-calendar .day,
-  .date-as-calendar .month,
-  .date-as-calendar .year,
-  .date-as-calendar .time {
+}
+
+.date-as-calendar .weekday,
+.date-as-calendar .day,
+.date-as-calendar .month,
+.date-as-calendar .year,
+.date-as-calendar .time {
     text-align: center;
-    line-height: 1.0;
-  }
-  
-  .date-as-calendar .month {
+    line-height: 1;
+}
+
+.date-as-calendar .month {
     font-family: Arial;
     text-transform: uppercase;
-    background:#CC9A00;
-    color: #F0F0F0;
-  }
-  
-  .position-pixels.date-as-calendar {
+    background: #cc9a00;
+    color: #f0f0f0;
+}
+
+.position-pixels.date-as-calendar {
     display: inline-block;
     position: relative;
     width: 70px;
     height: 64px;
-  }
-  
-  .position-pixels.date-as-calendar .weekday,
-  .position-pixels.date-as-calendar .day,
-  .position-pixels.date-as-calendar .month,
-  .position-pixels.date-as-calendar .year,
-  .position-pixels.date-as-calendar .time {
+}
+
+.position-pixels.date-as-calendar .weekday,
+.position-pixels.date-as-calendar .day,
+.position-pixels.date-as-calendar .month,
+.position-pixels.date-as-calendar .year,
+.position-pixels.date-as-calendar .time {
     display: block;
     position: absolute;
     left: 0;
     right: 0;
     width: 100%;
+}
 
-  }
-  
-  .position-pixels.date-as-calendar .month {
+.position-pixels.date-as-calendar .month {
     top: 0px;
     font-size: 14px;
     padding: 4px 4px;
-  }
-  
-  .position-pixels.date-as-calendar .weekday {
+}
+
+.position-pixels.date-as-calendar .weekday {
     top: 16px;
     font-size: 14px;
-  }
-  
-  .position-pixels.date-as-calendar .day {
+}
+
+.position-pixels.date-as-calendar .day {
     top: 26px;
     font-size: 24px;
-  }
-  
-  .position-pixels.date-as-calendar .year {
+}
+
+.position-pixels.date-as-calendar .year {
     top: 50px;
     font-size: 14px;
-  }
-  .select-date{
+}
+.select-date {
     display: flex;
     position: absolute;
     z-index: 1;
     font-size: 26px;
     color: #242b04;
-  }
-  .box-cal{
+}
+.box-cal {
     display: inline-flex;
-  }
+}
 
-  .txt-20{
-      font-size: 20px;
-      font-weight: 700;;
-  }
+.txt-20 {
+    font-size: 20px;
+    font-weight: 700;
+}
+.disable {
+    background: #8a877e;
+}
+a.disabled {
+    pointer-events: none;
+}

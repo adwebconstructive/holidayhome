@@ -83,6 +83,15 @@
                                 </div>
                                 <div class="col-md-12">
                                     @foreach($dateRange as $day)
+                                   
+                                       @foreach($reservations as $data)
+                                            <?php $disable=null ?>
+                                            @if($data['room_id'] == $room->id)
+                                                @if( date('Y-m-d', strtotime($day))  >=  date('Y-m-d', strtotime($data['from'])) &&   date('Y-m-d', strtotime($day)) <=date('Y-m-d', strtotime($data['to'])) )
+                                                 <?php $disable="disable";break; ?>
+                                                @endif
+                                            @endif
+                                       @endforeach
                                     <div class="box-cal">
                                         <div v-if="date_array.includes('{{$day}}{{$room->id}}')" class="">
                                             <i class="fa fa-check " style="display: -webkit-inline-box;
@@ -91,8 +100,10 @@
                                             font-size: 26px;
                                             color: #242b04;" aria-hidden="true"></i>
                                         </div>
-                                        <a href="#">
-                                            <div class="date-as-calendar position-pixels"
+                                        
+                                       
+                                        <a href="#" @if(!empty( $disable)) class="disabled" @endif>
+                                            <div class="date-as-calendar position-pixels @if(!empty( $disable)) disable @endif"
                                                 v-on:click="getDate('{{ $day}}{{$room->id}}','{{$room->rate}}')">
                                                 <span class="day">{{Carbon\Carbon::parse($day)->format('d')}}</span>
                                                 <span class="month">{{Carbon\Carbon::parse($day)->format('M')}}</span>
@@ -127,6 +138,7 @@
     data: {
         total:0,
         date_array:[],
+        reservations_data:{},
       },
       methods:{
             getDate: function (day,value) {

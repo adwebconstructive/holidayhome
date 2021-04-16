@@ -7,7 +7,8 @@ use App\Models\Hotel;
 use App\Models\HotelRoom;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-
+use App\Models\Reservation;
+use DB;
 class HomeController extends Controller
 {
     public function index()
@@ -20,11 +21,26 @@ class HomeController extends Controller
     public function availability(Request $request)
     {
         $input = $request->all();
+
+        
+
         $hotels = Hotel::where('enabled', 1)->get();
         $selected = Hotel::with('images')->find($request->get('hotel_id'));
         $startDate = Carbon::createFromFormat('Y-m-d', $input['from']);
         $endDate = Carbon::createFromFormat('Y-m-d', $input['to']);
         $dateRange = CarbonPeriod::create($startDate, $endDate);
-        return view('frontend.availability', compact(['input', 'hotels', 'selected', 'dateRange']));
+        
+        $reservations = Reservation::select('room_id','from','to')->where('from','>=' ,date('Y-m-d', strtotime($startDate)))
+                                    ->orWhere('to','<=' ,date('Y-m-d', strtotime($endDate)))
+                                    ->where('hotel_id',$request->get('hotel_id'))->get();
+                                 
+        
+        if(!empty($reservations)){
+            $reservations = $reservations->toArray();
+        }
+        else{
+            $reservations =[];
+        }
+        return view('frontend.availability', compact(['input', 'hotels', 'selected', 'dateRange','reservations']));
     }
 }
