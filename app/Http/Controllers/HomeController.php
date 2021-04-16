@@ -21,7 +21,24 @@ class HomeController extends Controller
     public function availability(Request $request)
     {
         $input = $request->all();
+        $newDateTime = Carbon::now()->addMonth(3);
+        $now = Carbon::now();
 
+        if($input['from'] < $now){
+            return back()->with('error', 'From date should not be less than current date ');
+        }
+        if($input['from']== $input['to'] ){
+            return back()->with('error', 'From date and to date should not be same ');
+        }
+
+        if($input['from'] > $input['to'] ){
+            return back()->with('error', 'From date should not be grater than to date ');
+        }
+
+        if($input['from'] > $newDateTime){
+            return back()->with('error', 'From date should not be grater than 3 monthes ');
+        }
+        
         
 
         $hotels = Hotel::where('enabled', 1)->get();
