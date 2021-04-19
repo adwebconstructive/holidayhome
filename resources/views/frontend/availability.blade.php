@@ -1,8 +1,6 @@
 @extends('frontend.layouts.layout')
 
 @section('subcontent')
-
-
 <!-- reservation-information -->
 <div id="app">
     <div id="information" class="spacer reserve-info">
@@ -12,11 +10,9 @@
                     <form role="form" method="get" action="{{ url('availability') }}" class="home-form">
                         <div class="form-group col-md-3">
                             <label>Hotel</label>
-                            <select class="form-control form-control" name="hotel_id">
-                                <option>Select Hotel</option>
+                            <select class="form-control" name="hotel_id" v-model="selected_id">
                                 @foreach ($hotels as $hotel)
-                                <option value="{{$hotel->id}}" @if($input['hotel_id']==$hotel->id ) selected
-                                    @endif>{{$hotel->name}}/{{$hotel->city}}</option>
+                                <option value="{{$hotel->id}}">{{$hotel->name}}/{{$hotel->city}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -38,7 +34,8 @@
                     <hr>
                     <h1 class="text-center mt-4 mb-0">{{$selected->name}}</h1>
                     <h2 class="text-center mt-0">CheckIn: {{$selected->check_in_time}} Check out:
-                        {{$selected->check_out_time}}</h2>
+                        {{$selected->check_out_time}}
+                    </h2>
                 </div>
 
             </div>
@@ -56,13 +53,11 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    <a class="carousel-control-prev" href="#carouselExampleInterval" role="button"
-                                        data-slide="prev">
+                                    <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="sr-only">Previous</span>
                                     </a>
-                                    <a class="carousel-control-next" href="#carouselExampleInterval" role="button"
-                                        data-slide="next">
+                                    <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="sr-only">Next</span>
                                     </a>
@@ -83,16 +78,12 @@
                                 </div>
                                 <div class="col-md-12">
                                     @foreach($dateRange as $day)
-                                   
-                                       @foreach($reservations as $data)
-                                            <?php $disable=null ?>
-                                            @if($data['room_id'] == $room->id)
-                                                @if( date('Y-m-d', strtotime($day))  >=  date('Y-m-d', strtotime($data['from'])) &&   date('Y-m-d', strtotime($day)) <=date('Y-m-d', strtotime($data['to'])) )
-                                                 <?php $disable="disable";break; ?>
-                                                @endif
-                                            @endif
-                                       @endforeach
-                                    <div class="box-cal">
+
+                                    @foreach($reservations as $data)
+                                    <?php $disable = null ?>
+                                    @if($data['room_id'] == $room->id)
+                                    @if( date('Y-m-d', strtotime($day)) >= date('Y-m-d', strtotime($data['from'])) && date('Y-m-d', strtotime($day)) <=date('Y-m-d', strtotime($data['to'])) ) <?php $disable = "disable";
+                                                                                                                                                                                                break; ?> @endif @endif @endforeach <div class="box-cal">
                                         <div v-if="date_array.includes('{{$day}}{{$room->id}}')" class="">
                                             <i class="fa fa-check " style="display: -webkit-inline-box;
                                             position: absolute;
@@ -100,62 +91,61 @@
                                             font-size: 26px;
                                             color: #242b04;" aria-hidden="true"></i>
                                         </div>
-                                        
-                                       
-                                        <a href="#" @if(!empty( $disable)) class="disabled" @endif>
-                                            <div class="date-as-calendar position-pixels @if(!empty( $disable)) disable @endif"
-                                                v-on:click="getDate('{{ $day}}{{$room->id}}','{{$room->rate}}')">
+
+
+                                        <span @if(!empty( $disable)) class="disabled" @endif>
+                                            <div class="date-as-calendar position-pixels @if(!empty( $disable)) disable @endif" v-on:click="getDate('{{ $day}}{{$room->id}}','{{$room->rate}}')">
                                                 <span class="day">{{Carbon\Carbon::parse($day)->format('d')}}</span>
                                                 <span class="month">{{Carbon\Carbon::parse($day)->format('M')}}</span>
                                             </div>
-                                        </a>
-                                    </div>
-                                    @endforeach
+                                        </span>
                                 </div>
-                              
+                                @endforeach
                             </div>
+
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
-            <div class="col-md-12">
-                <br>
-                <br>
-                <div class="pull-right txt-20">
-                    <span v-if="total">₹ @{{total}} </span>
-                    <span v-else>₹ 0</span>
-                    <input type="submit" class="btn btn-default" value="Book Now">
-                </div>
-            </div>
-            <br>
+            @endforeach
         </div>
+        <div class="col-md-12">
+            <br>
+            <br>
+            <div class="pull-right txt-20">
+                <span v-if="total">₹ @{{total}} </span>
+                <span v-else>₹ 0</span>
+                <input type="submit" class="btn btn-default btn-lg" value="Book Now">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 </div>
+</div>
 <script>
-    new Vue({
-    el: '#app',
-    data: {
-        total:0,
-        date_array:[],
-        reservations_data:{},
-      },
-      methods:{
-            getDate: function (day,value) {
-                if(this.date_array.includes(day)){
-                    this.total= eval(this.total)- eval(value)
+    const app = new Vue({
+        el: '#app',
+        data: {
+            total: 0,
+            date_array: [],
+            reservations_data: {},
+            selected_id: "{{ $selected->id }}",
+        },
+        methods: {
+            getDate: function(day, value) {
+                if (this.date_array.includes(day)) {
+                    this.total = eval(this.total) - eval(value)
                     this.date_array.splice(this.date_array.indexOf(day), 1);
-                }
-                else{
-                    this.total= eval(this.total)+ eval(value)
+                } else {
+                    this.total = eval(this.total) + eval(value)
                     this.date_array.push(day);
-                    
                 }
-               
-      
             },
         }
-}); 
+    });
 </script>
 
 @endsection

@@ -59,7 +59,7 @@
 
     <script src="https://unpkg.com/filepond-plugin-image-preview"></script>
     <script src="https://unpkg.com/filepond"></script>
-    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-filepond"></script>
 
 </head>
@@ -103,7 +103,7 @@
             });
         });
 
-        @if(session()->has('success'))
+        @if(session()-> has('success'))
         Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -119,8 +119,8 @@
         @endif
         @if($errors->any())
 
-        @foreach ($errors->all() as $error)
-            console.log('{{ $error }}');
+        @foreach($errors->all() as $error)
+        console.log('{{ $error }}');
         @endforeach
 
         @endif

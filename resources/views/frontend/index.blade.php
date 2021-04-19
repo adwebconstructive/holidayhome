@@ -19,7 +19,7 @@
     <div class="carousel-inner" style="max-height: 570px">
         @foreach($hotels as $hotel)
         <div class="carousel-item @if($loop->iteration == 1) active @endif">
-            <img class="d-block w-100 banner" src="{{ $hotel->images->first()->image_path }}"
+            <img class="d-block w-100 banner" src="{{ $hotel->images->first()->image_path ?? '' }}"
                 alt="Second slide">
             <div class="absolute-div">
                 <div class="carousel-caption agileits-banner-info">
