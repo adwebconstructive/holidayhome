@@ -47,8 +47,8 @@ class HomeController extends Controller
         $endDate = Carbon::createFromFormat('Y-m-d', $input['to']);
         $dateRange = CarbonPeriod::create($startDate, $endDate);
         
-        $reservations = Reservation::select('room_id','from','to')->where('from','>=' ,date('Y-m-d', strtotime($startDate)))
-                                    ->orWhere('to','<=' ,date('Y-m-d', strtotime($endDate)))
+        $reservations = Reservation::select('room_id','reservation_date')->where('reservation_date','>=' ,date('Y-m-d', strtotime($startDate)))
+                                    ->orWhere('reservation_date','<=' ,date('Y-m-d', strtotime($endDate)))
                                     ->where('hotel_id',$request->get('hotel_id'))->get();
                                  
         

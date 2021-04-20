@@ -13,15 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/contact', function () {
+        return view('frontend.contact');
+});
+
 Route::group(['prefix' => ''], function(){
     Route::get('', 'HomeController@index');
     Route::get('availability', 'HomeController@availability');
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    // Route::get('/dashboard', function () {
-    //     return view('admin.dashboard');
-    // });
+
 
     Route::group(['prefix' => 'hotel'], function () {
 

@@ -4,6 +4,8 @@
     margin: 0em 1em;
     box-shadow: 3px 3px 3px;
     width: 100%;
+    display: grid;
+    min-height: 200px;
 }
 
 .ml-1 {
@@ -166,6 +168,7 @@ ul {
 }
 .disable {
     background: #8a877e;
+    pointer-events: none;
 }
 a.disabled {
     pointer-events: none;
