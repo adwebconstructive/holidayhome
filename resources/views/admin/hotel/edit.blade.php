@@ -4,7 +4,7 @@
 
 <div class="padding">
     <div class="content-wrapper">
-        <form method="POST" action="{{route('hotels.update',$hotel->id)}}" enctype="multipart/form-data" class="confirm">
+        <form method="POST" action="{{route('hotel.update',$hotel->id)}}" enctype="multipart/form-data" class="confirm">
             {{csrf_field()}}
 
             <div class="card-body">
@@ -50,18 +50,13 @@
                         <label for="contact_phone">Contact Phone</label>
                         <input type="number" maxlength="10" name="contact_phone" class="form-control" id="contact_phone" value="{{$hotel->contact_phone}}" required>
                     </div>
-                    <div class="col-md-6">
-                        <h4>Current Logo</h4>
-                        <img src="{{ $hotel->logo}}" alt="Logo" style="max-height: 200px">
+                    <div class="form-group col-6">
+                        <label for="check_in">Check In</label>
+                        <input type="text" maxlength="10" name="check_in" class="form-control" value="{{$hotel->check_in}}" id="check_in" placeholder="Contact Phone" required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="exampleInputFile">Update Logo</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="logo">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                            </div>
-                        </div>
+                        <label for="check_out">Check Out</label>
+                        <input type="text" maxlength="10" name="check_out" class="form-control" value="{{$hotel->check_out}}" id="check_out" placeholder="Contact Phone" required>
                     </div>
                 </div>
                 <!-- /.card-body -->

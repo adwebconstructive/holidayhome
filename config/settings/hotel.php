@@ -11,6 +11,8 @@ return [
         'contact_person' => 'required',
         'contact_email' => 'required|email',
         'contact_phone' => 'required|min:10|string',
+        'check_in' => 'required',
+        'check_out' => 'required',
     ],
 
     'update_validation_rules' => [
@@ -23,6 +25,8 @@ return [
         'contact_person' => 'required',
         'contact_email' => 'required|email',
         'contact_phone' => 'required|min:10|string',
+        'check_in' => 'required',
+        'check_out' => 'required',
     ],
 
     'room_creation_validation_rules' => [

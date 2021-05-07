@@ -33,8 +33,8 @@
                 <div class="col-sm-12 col-md-12">
                     <hr>
                     <h1 class="text-center mt-4 mb-0">{{$selected->name}}</h1>
-                    <h2 class="text-center mt-0">CheckIn: {{$selected->check_in_time}} Check out:
-                        {{$selected->check_out_time}}
+                    <h2 class="text-center mt-0">CheckIn: {{$selected->check_in}} Check out:
+                        {{$selected->check_out}}
                     </h2>
                 </div>
 

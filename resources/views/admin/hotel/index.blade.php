@@ -64,7 +64,7 @@
                                                 <i class="fas fa-eye"></i> View
                                             </a>
 
-                                            <a href="{{url('admin/hotels/edit',$hotel->id)}}" class="btn btn-info">
+                                            <a href="{{route('hotel.edit', ['id' => $hotel->id])}}" class="btn btn-info">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
                                             <a class="btn btn-danger confirm" href="{{route('hotel.delete',$hotel->id)}}">
