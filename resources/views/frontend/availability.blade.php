@@ -33,7 +33,7 @@
                 <div class="col-sm-12 col-md-12">
                     <hr>
                     <h1 class="text-center mt-4 mb-0">{{$selected->name}}</h1>
-                    <h2 class="text-center mt-0">CheckIn: {{$selected->check_in}} Check out:
+                    <h2 class="text-center mt-0">CheckIn: {{$selected->check_in}} | Check out:
                         {{$selected->check_out}}
                     </h2>
                 </div>
@@ -79,10 +79,10 @@
                                 <div class="col-md-12">
                                     @foreach($dateRange as $day)
 
-                                    @foreach($reservations as $data)
+                                    @foreach($reservations as $reservation)
                                     <?php $disable = null ?>
-                                    @if($data['room_id'] == $room->id)
-                                    @if( date('Y-m-d', strtotime($day)) >= date('Y-m-d', strtotime($data['from'])) && date('Y-m-d', strtotime($day)) <=date('Y-m-d', strtotime($data['to'])) ) <?php $disable = "disable";
+                                    @if($reservation['room_id'] == $room->id)
+                                    @if( date('Y-m-d', strtotime($day)) >= date('Y-m-d', strtotime($reservation['from'])) && date('Y-m-d', strtotime($day)) <=date('Y-m-d', strtotime($reservation['to'])) ) <?php $disable = "disable";
                                                                                                                                                                                                 break; ?> @endif @endif @endforeach <div class="box-cal">
                                         <div v-if="date_array.includes('{{$day}}{{$room->id}}')" class="">
                                             <i class="fa fa-check " style="display: -webkit-inline-box;

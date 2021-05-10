@@ -20,9 +20,9 @@ class HomeController extends Controller
 
     public function availability(Request $request)
     {
-        $input = $request->all();
-        $newDateTime = Carbon::now()->addMonth(3);
-        $now = Carbon::now();
+        $input = $request->validate(['hotel_id' => 'required', 'from' => 'required', 'to' => 'required']);
+        $newDateTime = now()->addMonth(3);
+        $now = now();
 
         if($input['from'] < $now){
             return back()->with('error', 'From date should not be less than current date ');
@@ -38,20 +38,18 @@ class HomeController extends Controller
         if($input['from'] > $newDateTime){
             return back()->with('error', 'From date should not be grater than 3 monthes ');
         }
-        
-        
 
         $hotels = Hotel::where('enabled', 1)->get();
         $selected = Hotel::with('images')->find($request->get('hotel_id'));
         $startDate = Carbon::createFromFormat('Y-m-d', $input['from']);
         $endDate = Carbon::createFromFormat('Y-m-d', $input['to']);
         $dateRange = CarbonPeriod::create($startDate, $endDate);
-        
+
         $reservations = Reservation::select('room_id','from','to')->where('from','>=' ,date('Y-m-d', strtotime($startDate)))
                                     ->orWhere('to','<=' ,date('Y-m-d', strtotime($endDate)))
                                     ->where('hotel_id',$request->get('hotel_id'))->get();
-                                 
-        
+
+
         if(!empty($reservations)){
             $reservations = $reservations->toArray();
         }

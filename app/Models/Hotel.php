@@ -31,6 +31,11 @@ class Hotel extends Model
         return $this->id . '-' . str_slug($this->name);
     }
 
+    public function bannerImage()
+    {
+        return $this->images->first()->image_path ?? '';
+    }
+
     public function getFullAddressAttribute()
     {
         return $this->address . ", " . $this->city . ", " . $this->state . ", " . $this->pin_code;

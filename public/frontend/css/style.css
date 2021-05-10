@@ -64,8 +64,22 @@ ul {
     color: #87857e;
 }
 .banner-text {
-    color: #022535;
+    font-size: 3em;
+    color: #f8e9a7;
+    text-shadow: 1px 1px 1px #0a0e14;
 }
+.banner-sub-text{
+    font-size: 1em;
+    color: #f8e9a7;
+    text-shadow: 1px 1px 1px #0a0e14;
+}
+
+.banner-background{
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+}
+
+
 .home-form {
     width: 100%;
     display: inline-flex;
@@ -169,4 +183,14 @@ ul {
 }
 a.disabled {
     pointer-events: none;
+}
+
+.redb{
+    border: 1px solid red;
+}
+
+.hotel-block{
+    border: 1px solid #dedede;
+    padding: 10px;
+    background-color: #fff9da;
 }
