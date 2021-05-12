@@ -29,9 +29,9 @@
     <!-- animate.css -->
     <link rel="stylesheet" href="{{ asset('plugins/frontend/assets/wow/animate.css')}}"/>
     <!-- Frontend styles -->
-    <link rel="stylesheet" href="{{ asset('plugins/frontend/css/style.css')}}"/>
     <link rel="stylesheet" href="{{asset('plugins/frontend/assets/style.css')}}">
-    <!-- wow script -->
+    <link rel="stylesheet" href="{{ asset('plugins/frontend/css/style.css')}}"/>
+<!-- wow script -->
     <script src="{{ asset('plugins/frontend/assets/wow/wow.min.js')}}"></script>
     <!-- uniform -->
     <script src="{{ asset('plugins/frontend/assets/uniform/js/jquery.uniform.js')}}"></script>
@@ -80,7 +80,7 @@
             });
         });
 
-        $('form').on('submit', (event) => {
+        $('form.confirm').on('submit', (event) => {
             event.preventDefault();
             let url = event.target.href;
             Swal.fire({

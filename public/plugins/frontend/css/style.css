@@ -1,3 +1,6 @@
+html body{
+    font-family: "Source Sans Pro";
+}
 .block {
     padding: 1em;
     border: 1px solid;
@@ -96,7 +99,7 @@ ul {
     font-variant: normal;
     font-style: normal;
     font-weight: normal;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     vertical-align: top;
     color: #303030;
     background: #e0e0e0;
@@ -118,7 +121,7 @@ ul {
 }
 
 .date-as-calendar .month {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     text-transform: uppercase;
     background: #cc9a00;
     color: #f0f0f0;
@@ -128,7 +131,7 @@ ul {
     display: inline-block;
     position: relative;
     width: 70px;
-    height: 64px;
+    height: 84px;
 }
 
 .position-pixels.date-as-calendar .weekday,
@@ -150,8 +153,8 @@ ul {
 }
 
 .position-pixels.date-as-calendar .weekday {
-    top: 16px;
-    font-size: 14px;
+    top: 56px;
+    font-size: 12px;
 }
 
 .position-pixels.date-as-calendar .day {
@@ -193,4 +196,8 @@ a.disabled {
     border: 1px solid #dedede;
     padding: 10px;
     background-color: #fff9da;
+}
+
+h1{
+    font-size: 4em;
 }

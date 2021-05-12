@@ -41,21 +41,10 @@ class HomeController extends Controller
 
         $hotels = Hotel::where('enabled', 1)->get();
         $selected = Hotel::with('images')->find($request->get('hotel_id'));
-        $startDate = Carbon::createFromFormat('Y-m-d', $input['from']);
-        $endDate = Carbon::createFromFormat('Y-m-d', $input['to']);
-        $dateRange = CarbonPeriod::create($startDate, $endDate);
-
-        $reservations = Reservation::select('room_id','from','to')->where('from','>=' ,date('Y-m-d', strtotime($startDate)))
-                                    ->orWhere('to','<=' ,date('Y-m-d', strtotime($endDate)))
-                                    ->where('hotel_id',$request->get('hotel_id'))->get();
-
-
-        if(!empty($reservations)){
-            $reservations = $reservations->toArray();
-        }
-        else{
-            $reservations =[];
-        }
+        $dateRange = CarbonPeriod::create(Carbon::createFromFormat('Y-m-d', $input['from']), Carbon::createFromFormat('Y-m-d', $input['to']));
+        $reservations = Reservation::where('hotel_id',$request->get('hotel_id'))
+            ->whereBetween('reserved_date', [$request->get('from'), $request->get('to')])
+            ->pluck('reserved_date', 'hotel_id')->toArray();
         return view('frontend.availability', compact(['input', 'hotels', 'selected', 'dateRange','reservations']));
     }
 }
