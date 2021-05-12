@@ -1,4 +1,4 @@
-@extends('frontend.app')
+@extends('app')
 
 @section('content')
         @include('frontend.layouts.header')

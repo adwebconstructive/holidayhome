@@ -4,21 +4,19 @@
     <div id="root">
         <!-- banner -->
         <div class="banner">
-            <img src="frontend/images/photos/banner.jpg" class="img-responsive" alt="slide" style="max-height: 350px">
+            <img src="{{ asset('plugins/frontend/images/photos/banner.jpg') }}" class="img-responsive" alt="slide" style="max-height: 350px">
             <div class="welcome-message">
                 <div class="wrap-info">
                     <div class="information">
-                        <h1 class="animated fadeInDown">PDCLERC Hotel Booking Portal</h1>
-                        <p class="animated fadeInUp">Most luxurious hotel of asia with the royal treatments and
-                            excellent
-                            customer service.</p>
+                        <h1 class="animated fadeInDown">PDCLERC</h1>
+                        <p class="animated fadeInUp">PDCLERC Hotel Booking Portal</p>
                     </div>
                     {{--<a href="#information" class="arrow-nav scroll wowload fadeInDownBig"><i
                             class="fa fa-angle-down"></i></a>--}}
                 </div>
             </div>
         </div>
-        <h2 class="text-center text-success mt-2">Check Availability</h2>
+        <h2 class="text-center text-success mt-2">Our Hotels</h2>
         <div class="container">
             <div class="row">
                 <div class="col-md-2"></div>
@@ -195,13 +193,18 @@
             },
             methods: {
                 availability(hotel_id) {
-                    if (this.from == null || this.to == null) {
+                    if (this.from == null) {
                         Swal.fire({
                             icon: 'warning',
-                            title: 'Please select dates',
-                            text: 'Please confirm!',
+                            title: 'Please select from date',
                         })
-                    } else {
+                    }else if (this.to == null) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Please select to date'
+                        })
+                    }
+                    else {
                         location.href = "{{ url('availability') }}" + "?hotel_id=" + hotel_id + "&from=" + this.from + "&to=" + this.to;
                     }
                 }
