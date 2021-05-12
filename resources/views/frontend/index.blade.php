@@ -4,7 +4,8 @@
     <div id="root">
         <!-- banner -->
         <div class="banner">
-            <img src="{{ asset('plugins/frontend/images/photos/banner.jpg') }}" class="img-responsive" alt="slide" style="max-height: 350px">
+            <img src="{{ asset('plugins/frontend/images/photos/banner.jpg') }}" class="img-responsive" alt="slide"
+                 style="max-height: 350px">
             <div class="welcome-message">
                 <div class="wrap-info">
                     <div class="information">
@@ -16,19 +17,17 @@
                 </div>
             </div>
         </div>
-        <h2 class="text-center text-success mt-2">Our Hotels</h2>
+        <br>
         <div class="container">
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="form-group col-md-4 col-sm-3 col-xs-12">
-                    <label>From date</label>
-                    <input type="date" class="form-control" placeholder="From" name="from" v-model="from">
+                <div class="col-md-4">
                 </div>
                 <div class="form-group col-md-4 col-sm-3 col-xs-12">
-                    <label>To date</label>
-                    <input type="date" class="form-control" placeholder="To" name="to" v-model="to">
+                    <h4 class="text-center pt-3">Select Check In - Check Out Dates</h4>
+                    <input type="text" class="form-control text-center form-control-lg daterange"
+                           placeholder="Select dates">
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-4"></div>
             </div>
         </div>
         <div class="container">
@@ -38,7 +37,7 @@
                         <img class="img-fluid w-100" src="{{ $hotel->bannerImage() }}" alt="">
                     </div>
                     <div class="col-md-8 row">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <h2 class="text-primary m-0 p-0">{{ $hotel->name }} | <span
                                     class="text-muted">{{ $hotel->city }}</span></h2>
                             <p class="text-success">No of rooms: {{ $hotel->rooms->count() }}</p>
@@ -48,12 +47,13 @@
                             <br>
                             <br>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <br>
                             <br>
-                            <p><i class="fa fa-clock-o"></i> Check In: {{ $hotel->check_in }}</p>
-                            <p><i class="fa fa-clock-o"></i> Check Out: {{ $hotel->check_out }}</p>
-                            <br>
+                            <p><i class="fa fa-clock-o"></i> <b>Check In:</b> @{{ moment(from,
+                                'YYYY-MM-DD').format('DD-MMM-YYYY') }} {{ $hotel->check_in }}</p>
+                            <p><i class="fa fa-clock-o"></i> <b>Check Out:</b> @{{ moment(to,
+                                'YYYY-MM-DD').format('DD-MMM-YYYY') }} {{ $hotel->check_out }}</p>
                             <br>
                             <a class="btn btn-success" @click.prevent="availability({{ $hotel->id }})" href="#">Check
                                 Availability</a>
@@ -188,26 +188,29 @@
         const app = new Vue({
             el: '#root',
             data: {
-                from: null,
-                to: null,
+                from: moment().add(1, 'days'),
+                to: moment().add(2, 'days'),
             },
             methods: {
                 availability(hotel_id) {
-                    if (this.from == null) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Please select from date',
-                        })
-                    }else if (this.to == null) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Please select to date'
-                        })
-                    }
-                    else {
-                        location.href = "{{ url('availability') }}" + "?hotel_id=" + hotel_id + "&from=" + this.from + "&to=" + this.to;
-                    }
+                    location.href = "{{ url('availability') }}" + "?hotel_id=" + hotel_id + "&from=" + this.from + "&to=" + this.to;
                 }
+            },
+            created() {
+                $(document).ready(() => {
+                    $(".daterange").daterangepicker({
+                        locale: {
+                            format: 'DD-MMM-YYYY'
+                        },
+                        startDate: this.from,
+                        endDate: this.to,
+                        minDate: moment().add(1, 'days'),
+                        maxDate: moment().add(90, 'days')
+                    }, function (start, end, label) {
+                        app.from = start.format('YYYY-MM-DD');
+                        app.to = end.format('YYYY-MM-DD');
+                    });
+                });
             }
         })
     </script>

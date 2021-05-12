@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }}</title>
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+{{--    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">--}}
     <!-- Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Google Font: Source Sans Pro -->
@@ -22,8 +22,6 @@
     <!-- Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- favicon -->
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <!-- gallery -->
     <link rel="stylesheet" href="{{ asset('plugins/frontend/assets/gallery/blueimp-gallery.min.css')}}">
     <!-- uniform -->
@@ -51,6 +49,7 @@
     <script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
     <!-- DateRangePicker -->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
