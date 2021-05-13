@@ -48,6 +48,14 @@
                         <label for="contact_phone">Contact Phone</label>
                         <input type="number" maxlength="10" name="contact_phone" class="form-control" value="{{old('contact_phone')}}" id="contact_phone" placeholder="Contact Phone" required>
                     </div>
+                    <div class="form-group col-6">
+                        <label for="check_in">Check In</label>
+                        <input type="text" maxlength="10" name="check_in" class="form-control" value="{{old('check_in')}}" id="check_in" placeholder="Contact Phone" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="check_out">Check Out</label>
+                        <input type="text" maxlength="10" name="check_out" class="form-control" value="{{old('check_out')}}" id="check_out" placeholder="Contact Phone" required>
+                    </div>
                 </div>
             </div>
             <!-- /.card-body -->

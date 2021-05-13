@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
@@ -78,7 +79,7 @@ class HotelController extends Controller
 
 
 
-    // Hotel Room 
+    // Hotel Room
 
     public function createRoom($id)
     {
@@ -148,5 +149,19 @@ class HotelController extends Controller
             return asset('storage/' . $folder . '/' . $name);
         }
         return null;
+    }
+
+    public function reserve($hotel_id, Request $request)
+    {
+        $reservation_data = $request->get('reservation_data');
+        $hotel = Hotel::with(['rooms'])->find($hotel_id);
+        foreach(explode('|', $reservation_data) as $room_date){
+            $room_date_arr = explode('~', $room_date);
+            $room_id = $room_date_arr[0];
+            $rate = $hotel->rooms->where('id', $room_id)->first()->rate;
+            $reserved_date = $room_date_arr[1];
+            Reservation::create(compact('hotel_id', 'room_id', 'reserved_date', 'rate'));
+        }
+        return redirect()->back()->with('success', 'Room reserved successfully');
     }
 }

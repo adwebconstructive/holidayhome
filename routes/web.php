@@ -30,10 +30,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('', 'HotelController@index')->name('hotel.index');
         Route::get('create', 'HotelController@create')->name('hotel.create');
         Route::get('{id?}', 'HotelController@view')->name('hotel.view');
-        Route::get('edit/{id}', 'HotelController@edit');
+        Route::get('edit/{id}', 'HotelController@edit')->name('hotel.edit');
 
         Route::post('', 'HotelController@store')->name('hotel.store');
         Route::post('image', 'HotelController@uploadHotelImages')->name('hotel.image');
+        Route::post('{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
         Route::post('{id}', 'HotelController@update')->name('hotel.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
@@ -51,5 +52,5 @@ Route::group(['prefix' => 'reservation'], function () {
         Route::get('', 'ReservationController@index');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
         Route::post('store', 'ReservationController@store')->name('reservation.store');
-       
+
     });
