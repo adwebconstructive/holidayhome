@@ -45,4 +45,20 @@ class Hotel extends Model
     {
         return $this->contact_person . ", " . $this->contact_email . ", " . $this->contact_phone;
     }
+
+    public function rates(){
+        return $this->rooms->pluck('rate','id');
+    }
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function getReservations($from, $to)
+    {
+        return $this->reservations()->whereBetween('reserved_date', [$from, $to])
+            ->selectRaw("concat(room_id, '~', reserved_date) as reservation_data")
+            ->get();
+    }
+
 }

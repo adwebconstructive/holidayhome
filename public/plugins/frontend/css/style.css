@@ -106,7 +106,7 @@ ul {
     border: 1px solid #ccc;
     border-radius: 3px;
     overflow: hidden;
-    box-shadow: 0px 2px 2px -2px black;
+    box-shadow: 0 2px 2px -2px black;
     margin: 0.2em;
     cursor: pointer;
 }
@@ -131,7 +131,7 @@ ul {
     display: inline-block;
     position: relative;
     width: 70px;
-    height: 84px;
+    height: 74px;
 }
 
 .position-pixels.date-as-calendar .weekday,
@@ -200,4 +200,18 @@ a.disabled {
 
 h1{
     font-size: 4em;
+}
+
+.date-check{
+    position: absolute;
+    z-index: 20;
+    color: #063e06;
+    font-size: 1.2em;
+}
+.overlay{
+    width: 70px;
+    height: 74px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.62);
+    z-index: 300;
 }

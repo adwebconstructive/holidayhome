@@ -39,12 +39,11 @@ class HomeController extends Controller
             return back()->with('error', 'From date should not be grater than 3 monthes ');
         }
 
-        $hotels = Hotel::where('enabled', 1)->get();
-        $selected = Hotel::with('images')->find($request->get('hotel_id'));
-        $dateRange = CarbonPeriod::create(Carbon::createFromFormat('Y-m-d', $input['from']), Carbon::createFromFormat('Y-m-d', $input['to']));
-        $reservations = Reservation::where('hotel_id',$request->get('hotel_id'))
-            ->whereBetween('reserved_date', [$request->get('from'), $request->get('to')])
-            ->pluck('reserved_date', 'hotel_id')->toArray();
+        $hotels = Hotel::select(['id', 'name', 'city'])->get();
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel_id'));
+        $dateRange = CarbonPeriod::create($input['from'], $input['to']);
+        $reservations = $selected->getReservations($input['from'], $input['to'])->toArray();
+        $reservations = array_flatten($reservations);
         return view('frontend.availability', compact(['input', 'hotels', 'selected', 'dateRange','reservations']));
     }
 }

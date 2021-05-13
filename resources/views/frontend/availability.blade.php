@@ -78,10 +78,18 @@
                                                 <div class="head-2">Person Allowed: {{$room->max_person_allowed}} </div>
                                             </div>
                                             <div class="col-md-12">
-
                                                 @foreach($dateRange as $day)
                                                     <div class="box-cal">
-                                                        <div class="date-as-calendar @if(in_array($day->format('Y-m-d'), $reservations)) disable @endif">
+                                                        <div
+                                                            class="overlay d-flex align-items-center justify-content-center"
+                                                            v-if="reservations.includes('{{ $room->id.'~'.$day->format('Y-m-d') }}')">
+                                                            <i class="fa fa-ban text-danger" style="font-size: 2em"></i>
+                                                        </div>
+                                                        <i class="fa fa-check-circle date-check"
+                                                           v-show="date_array.includes('{{ $room->id.'~'.$day->format('Y-m-d') }}')"></i>
+                                                        <div class="date-as-calendar position-pixels
+                                                                    @if(in_array($day->format('Y-m-d'), $reservations)) disable @endif"
+                                                             @click="toggleDateSelect('{{ $room->id.'~'.$day->format('Y-m-d') }}')">
                                                             <span class="weekday">{{ $day->format('l') }}</span>
                                                             <span class="day">{{$day->format('d')}}</span>
                                                             <span class="month">{{$day->format('M')}}</span>
@@ -116,21 +124,32 @@
             data: {
                 from: moment('{{ $input['from'] }}', 'YYYY-MM-DD'),
                 to: moment('{{ $input['to'] }}', 'YYYY-MM-DD'),
-                total: 0,
+                rates: @json($selected->rates()),
                 date_array: [],
-                reservations_data: {},
+                reservations: @json($reservations),
                 hotel_id: "{{ $selected->id }}",
             },
+            computed: {
+                total() {
+                    return this.date_array.reduce((total = 0, item) => {
+                        let room_id = item.split("~")[0];
+                        let rate = app.rates[room_id];
+                        console.log(rate);
+                        return total + rate;
+                    }, 0);
+                }
+            },
             methods: {
-                getDate: function (day, value) {
-                    if (this.date_array.includes(day)) {
-                        this.total = eval(this.total) - eval(value)
-                        this.date_array.splice(this.date_array.indexOf(day), 1);
+                toggleDateSelect(value) {
+                    if (this.date_array.includes(value)) {
+                        const index = this.date_array.indexOf(value);
+                        if (index > -1) {
+                            this.date_array.splice(index, 1);
+                        }
                     } else {
-                        this.total = eval(this.total) + eval(value)
-                        this.date_array.push(day);
+                        this.date_array.push(value);
                     }
-                },
+                }
             },
             created() {
                 $(document).ready(() => {
