@@ -103,14 +103,21 @@
                             </div>
                         </div>
                     @endforeach
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-right">
                         <br>
                         <br>
-                        <div class="text-right txt-20">
-                            <span v-if="total">₹ @{{total}} </span>
-                            <span v-else>₹ 0</span>
-                            <input type="submit" class="btn btn-default btn-lg" value="Book Now">
+                        {!! Form::open(['url' => route('hotel.reserve', ['id' => $selected->id])]) !!}
+                        <div class="row">
+                            <div class="col-md-6 text-right">
+                                <h1 class="" v-text="'₹' + total"></h1>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="hidden" name="reservation_data" :value="reservation_data">
+                                <input type="submit" class="btn btn-success btn-lg" value="Book Now">
+                            </div>
                         </div>
+
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -130,6 +137,9 @@
                 hotel_id: "{{ $selected->id }}",
             },
             computed: {
+                reservation_data() {
+                    return this.date_array.join('|');
+                },
                 total() {
                     return this.date_array.reduce((total = 0, item) => {
                         let room_id = item.split("~")[0];
