@@ -1,16 +1,16 @@
-.wrapper{
+.wrapper {
     min-height: 950px;
     width: 100%;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
-.padding{
+.padding {
     padding: 1em;
 }
 
-.full-widh{
-	width: 100%;
+.full-widh {
+    width: 100%;
 }
 
-.hotels td{
+.hotels td {
     vertical-align: middle;
 }

@@ -15,14 +15,45 @@ class ReservationController extends Controller
 {
    public function index(Request $request){
 
-   		$reservations = Reservation::whereRaw('1');
-        if (!empty($request['from'] && !empty($request['to']))) {
-            $reservations = $reservations->whereBetween('from', [$request['from'],$request['to']]);
-        }
-        $reservations = $reservations->paginate(config('settings.variable.page_size'));
+   		
 
-       
-        return view('reservation.index', compact('reservations'));
+        $month = [];
+        for ($m=1; $m<=12; $m++) {
+            $month[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
+        }
+        $years = [];
+        for ($year=2021; $year <= 2040; $year++) $years[$year] = $year;
+
+        $hotels = Hotel::With('rooms','rooms.reservations');
+
+        $now = Carbon::now();
+        if(empty($request->get('month'))){
+          
+            $selectedMonth= $now->month;
+        }
+        else{
+            $selectedMonth = $request->get('month');
+            $hotels=  $hotels->whereHas('reservations', function ($q) use ($selectedMonth){
+                $q->whereRaw('MONTH(reserved_date) = '.$selectedMonth);
+            });
+            
+            
+            
+        }
+        if(empty($request->get('year'))){
+            $selectedYear=  $now->year;
+            
+        }
+        else{
+            $selectedYear = $request->get('year');
+            $hotels=  $hotels->whereHas('reservations', function ($q) use ($selectedYear){
+                $q->whereRaw('YEAR(reserved_date) = '.$selectedYear);
+            });
+        }
+
+        $hotels=  $hotels->get();
+
+        return view('reservation.index', compact('hotels','month','years','selectedMonth','selectedYear'));
    }
 
     public function create(Request $request){

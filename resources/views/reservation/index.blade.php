@@ -1,5 +1,47 @@
 @extends('layouts.layout')
+<style>
 
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+
+
+.days {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+  width: 100%;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:16px;
+
+}
+
+.days li span {
+    display: table-cell;
+    text-align: center;
+    width: 200px
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+  .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+  .weekdays li, .days li {width: 12.5%;}
+  .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+  .weekdays li, .days li {width: 12.2%;}
+}
+</style>
 @section('subcontent')
 
 <div class="padding">
@@ -14,59 +56,66 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card" style="overflow: auto;max-hight:400px">
                     <div class="card-header">
-                        <h3 class="card-title">Rooms</h3>
-{{-- 
-                        <div class="card-tools">
-                            <form action="{{route('hotels.index')}}" method="get">
-                                <div class="input-group input-group-sm" style="width: 250px;">
-
-                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search by name">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 class="card-title">Reservations Details</h3>
                                 </div>
-                            </form>
-                        </div> --}}
+                                <div class="col-md-8">
+                                    <form method="get" action="{{route('reservation.index')}}">
+                                        Select Month
+                                        <select name="month" required>
+                                            @foreach($month as $key=>$mo)
+                                                <option value="{{$key+1}}" @if($selectedMonth == $key+1) selected @endif>{{$mo}}</option>
+                                            @endforeach
+                                        </select>
+                            
+                                
+                                        Select Year
+                                        <select name="year" required>
+                                            @foreach($years as $key=>$mo)
+                                                <option value="{{$mo}}" @if($selectedYear == $mo) selected @endif>{{$mo}}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="submit" value="Search" class="btn btn-sm btn-info">
+                                    </form>
+                                <div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-hover hotels">
-                            <thead>
-                                <tr>
-                                    <th>Hotel</th>
-                                    <th>Room No</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Rate</th>
-                                    <th>Transaction</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($reservations as $data)
-                                <tr>
-                                     <td>{{$data->hotel->name}}</td>
-                                     <td>{{ $data->room->room_number }}</td>
-                                     <td>{{$data->from}}</td>
-                                     <td>{{$data->to}}</td>
-                                     <td>Rs. {{$data->rate}}</td>
-                                     @if(empty($data->transaction_id))
-                                     <td>Not Paid</td>
-                                     @else
-                                     <td>Paid</td>
-                                    @endif
-                                </tr>
-                              
-                                @endforeach
-                            </tbody>
-                        </table>
+                    @foreach($hotels as $data)
+                    <div class="row">
+                        <div class="col-md-12"><h3>{{$data->name}}</h3></div>
+                        @foreach($data->rooms as $room)
+                            <div class="col-md-12 p-2"><h4>{{$room->room_number}}</h4></div>
+                        
+                                  
+                                  <ul class="days">  
+                                    @for($i=1 ; $i <=31 ;$i++)
+                                  
+                                    <li>{{$i}}
+                                            @foreach($room->reservations as $res)
+                                                @if(\Carbon\Carbon::parse($res->reserved_date)->format('d') == $i && \Carbon\Carbon::parse($res->reserved_date)->format('m')== $selectedMonth)
+                                               <span>
+                                                {{$res->reserved_by}} Test{{$i}} Name
+                                               </span>
+                                                @endif
+                                            @endforeach
+                                        
+                                        </li>
+                                    @endfor
+                                    
+                                   
+                                  </ul>
+                   
+                        @endforeach
                     </div>
-                    <div class="d-flex justify-content-center">
-                        {{ $reservations->links() }}
-                    </div>
+                    @endforeach
+                    @if($hotels->count() == 0)
+                     <h4>No Booking Available</h4>
+                    @endif
                 </div>
                 <!-- /.card -->
             </div>
