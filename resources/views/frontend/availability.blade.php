@@ -97,6 +97,10 @@
                                                     </div>
                                                 @endforeach
                                             </div>
+                                            <div class="col-md-12 text-right">
+                                                <h3 class="m-0 head-1 text-primary">Total: <span v-text="getRoomTotal({{ $room->id }})"></span>
+                                                </h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -106,18 +110,12 @@
                     <div class="col-md-12 text-right">
                         <br>
                         <br>
-                        {!! Form::open(['url' => route('hotel.reserve', ['id' => $selected->id])]) !!}
-                        <div class="row">
-                            <div class="col-md-6 text-right">
-                                <h1 class="" v-text="'₹' + total"></h1>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="hidden" name="reservation_data" :value="reservation_data">
-                                <input type="submit" class="btn btn-success btn-lg" value="Book Now">
-                            </div>
-                        </div>
-
+                        {!! Form::open(['url' => route('hotel.reserve', ['id' => $selected->id]), 'class' => 'confirm']) !!}
+                        <input type="hidden" name="reservation_data" :value="reservation_data">
+                        <button type="submit" class="btn pay-button"> Book and Pay ₹@{{ total }}</button>
                         {!! Form::close() !!}
+                        <br>
+                        <br>
                     </div>
                 </div>
             </div>
@@ -144,12 +142,18 @@
                     return this.date_array.reduce((total = 0, item) => {
                         let room_id = item.split("~")[0];
                         let rate = app.rates[room_id];
-                        console.log(rate);
                         return total + rate;
                     }, 0);
                 }
             },
             methods: {
+                getRoomTotal(room_id) {
+                    let entries = this.date_array.filter((item) => {
+                        let id = item.split("~")[0];
+                        return parseInt(room_id) === parseInt(id);
+                    });
+                    return entries.length * this.rates[room_id];
+                },
                 toggleDateSelect(value) {
                     if (this.date_array.includes(value)) {
                         const index = this.date_array.indexOf(value);
