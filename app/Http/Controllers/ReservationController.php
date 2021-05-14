@@ -10,50 +10,13 @@ use App\Models\HotelRoom;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use Carbon\CarbonPeriod;
 class ReservationController extends Controller
 {
    public function index(Request $request){
 
-   		
-
-        $month = [];
-        for ($m=1; $m<=12; $m++) {
-            $month[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
-        }
-        $years = [];
-        for ($year=2021; $year <= 2040; $year++) $years[$year] = $year;
-
-        $hotels = Hotel::With('rooms','rooms.reservations');
-
-        $now = Carbon::now();
-        if(empty($request->get('month'))){
-          
-            $selectedMonth= $now->month;
-        }
-        else{
-            $selectedMonth = $request->get('month');
-            $hotels=  $hotels->whereHas('reservations', function ($q) use ($selectedMonth){
-                $q->whereRaw('MONTH(reserved_date) = '.$selectedMonth);
-            });
-            
-            
-            
-        }
-        if(empty($request->get('year'))){
-            $selectedYear=  $now->year;
-            
-        }
-        else{
-            $selectedYear = $request->get('year');
-            $hotels=  $hotels->whereHas('reservations', function ($q) use ($selectedYear){
-                $q->whereRaw('YEAR(reserved_date) = '.$selectedYear);
-            });
-        }
-
-        $hotels=  $hotels->get();
-
-        return view('reservation.index', compact('hotels','month','years','selectedMonth','selectedYear'));
+        $reservations= Reservation::get();
+        return view('reservation.index', compact('reservations'));
    }
 
     public function create(Request $request){
@@ -92,6 +55,31 @@ class ReservationController extends Controller
         // $email->sendSuccessReservationUserEmail($full_details, $user->email);
 
         return back()->with('success', 'Room  booked successfully');
+    }
+
+    public function calenderView(Request $request){
+        $hotels = Hotel::get();
+        $selectedMonth = $request->get('month');
+        $selectedYear =$request->get('year');
+        $startDate = Carbon::createFromDate($selectedYear, $selectedMonth)->startOfMonth();
+        $endDate = Carbon::createFromDate($selectedYear, $selectedMonth)->lastOfMonth();
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel'));
+        $dateRange = CarbonPeriod::create($startDate, $endDate);
+        $reservations = $selected->getReservations($startDate, $endDate)->toArray();
+        $reservations = array_flatten($reservations);
+        return view('reservation.calender-view', compact('hotels','selected','startDate','endDate','selectedMonth','selectedYear', 'dateRange','reservations'));
+
+    }
+
+    public function calenderViewIndex(){
+        $hotels = Hotel::get();
+        $now= Carbon::now();
+        $selectedMonth = $now->month;
+        $selectedYear = $now->year;
+        $startDate = Carbon::createFromDate($selectedYear, $selectedMonth)->startOfMonth();
+        $endDate = Carbon::createFromDate($selectedYear, $selectedMonth)->lastOfMonth();
+        return view('reservation.calender-view', compact('hotels','selectedMonth','selectedYear'));
+
     }
 
 }
