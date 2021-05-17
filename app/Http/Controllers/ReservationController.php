@@ -15,7 +15,7 @@ class ReservationController extends Controller
 {
    public function index(Request $request){
 
-        $reservations= Reservation::get();
+        $reservations= Reservation::paginate(30);
         return view('reservation.index', compact('reservations'));
    }
 
@@ -80,6 +80,34 @@ class ReservationController extends Controller
         $endDate = Carbon::createFromDate($selectedYear, $selectedMonth)->lastOfMonth();
         return view('reservation.calender-view', compact('hotels','selectedMonth','selectedYear'));
 
+    }
+
+    public function availabilityCheck(Request $request){
+        $input = $request->validate(['hotel_id' => 'required', 'from' => 'required', 'to' => 'required']);
+        $newDateTime = now()->addMonth(3);
+        $now = now();
+
+        if($input['from'] < $now){
+            return back()->with('error', 'From date should not be less than current date ');
+        }
+        if($input['from']== $input['to'] ){
+            return back()->with('error', 'From date and to date should not be same ');
+        }
+
+        if($input['from'] > $input['to'] ){
+            return back()->with('error', 'From date should not be grater than to date ');
+        }
+
+        if($input['from'] > $newDateTime){
+            return back()->with('error', 'From date should not be grater than 3 monthes ');
+        }
+
+        $hotels = Hotel::select(['id', 'name', 'city'])->get();
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel_id'));
+        $dateRange = CarbonPeriod::create($input['from'], $input['to']);
+        $reservations = $selected->getReservations($input['from'], $input['to'])->toArray();
+        $reservations = array_flatten($reservations);
+        return view('reservation.availability', compact(['input', 'hotels', 'selected', 'dateRange','reservations']));
     }
 
 }

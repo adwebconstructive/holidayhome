@@ -4,7 +4,7 @@
 
 <div class="padding">
     <div class="content-wrapper">
-        <form method="post" action="{{route('reservation.store')}}" enctype="multipart/form-data">
+        <form method="post" action="{{route('reservation.availability')}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="card-body">
                 <div class="row">
@@ -27,22 +27,17 @@
         
                     <div class="form-group col-6">
                         <label>From:</label>
-                          <div class="input-group date" id="from" data-target-input="nearest">
-                              <input type="text" name="from" class="form-control datetimepicker-input" data-target="#from"/>
-                              <div class="input-group-append" data-target="#from" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                          </div>
+                         <input class="form-control" type="date" value="" name="from">
                       </div>
                       <div class="form-group col-6">
                         <label>To:</label>
-                          <div class="input-group date" id="to" data-target-input="nearest">
-                              <input type="text" name="to" class="form-control datetimepicker-input" data-target="#to"/>
-                              <div class="input-group-append" data-target="#to" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                              </div>
-                          </div>
-                      </div>
+                          <input  class="form-control"  type="date" name="to" value="">
+                    </div>
+                    
+                    <div class="form-group col-6">
+                        <label>Employee Id:</label>
+                        <input  class="form-control"  type="text" name="emp_id" value="">
+                    </div>
                 </div>
                 </div>
                 <div class="card-footer">
@@ -74,13 +69,6 @@
     });
 });
 
-$('#from').datetimepicker({
-        format: 'YYYY-MM-DD'
-});
-
-$('#to').datetimepicker({
-    format: 'YYYY-MM-DD'
-});
 
 
 </script>

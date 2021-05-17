@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'reservation'], function () {
         Route::get('', 'ReservationController@index')->name('reservation.index');
+        Route::post('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
+        Route::get('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
         Route::get('/calender', 'ReservationController@calenderViewIndex')->name('reservation.calender.index');
         Route::get('/calender/search', 'ReservationController@calenderView')->name('reservation.calender.search');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
