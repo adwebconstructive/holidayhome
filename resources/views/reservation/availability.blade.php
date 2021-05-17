@@ -39,6 +39,9 @@
 
             </div> --}}
             <div class="row">
+                <div class="col-sm-12 col-md-12 mt-2">
+                <h1 class="text-center mt-4 mb-0">{{$selected->name}}</h1>
+                </div>
                 @foreach ($selected->rooms as $room)
                     <div class="col-sm-12 col-md-12 mt-2">
                         <div class="block">

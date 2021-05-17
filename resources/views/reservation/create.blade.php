@@ -17,13 +17,13 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-6">
+                    {{-- <div class="form-group col-6">
                         <label for="name">Select Room</label>
                         <select class="form-control" name="room_id" id="room">
                             <option>Select Room</option>
                            
                         </select>
-                    </div>
+                    </div> --}}
         
                     <div class="form-group col-6">
                         <label>From:</label>
@@ -49,7 +49,7 @@
         @include('partials.validation-error')
     </div>
 </div>
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $(document).ready(function () {
 
     $("#hotel").change(function () {
@@ -69,9 +69,7 @@
     });
 });
 
-
-
-</script>
+</script> --}}
 
 
 @endsection
