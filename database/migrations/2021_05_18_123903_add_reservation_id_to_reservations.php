@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveColumnReservationsTable extends Migration
+class AddReservationIdToReservations extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class RemoveColumnReservationsTable extends Migration
     public function up()
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->dropColumn(['from', 'to']);
+            $table->string('reservation_id')->after('id')->nullable()->default(null);
         });
     }
 
@@ -26,8 +26,7 @@ class RemoveColumnReservationsTable extends Migration
     public function down()
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->date('from');
-            $table->date('to');
+            $table->dropColumn('reservation_id');
         });
     }
 }
