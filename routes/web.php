@@ -13,15 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/contact', function () {
+        return view('frontend.contact');
+});
+
 Route::group(['prefix' => ''], function(){
     Route::get('', 'HomeController@index');
     Route::get('availability', 'HomeController@availability');
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    // Route::get('/dashboard', function () {
-    //     return view('admin.dashboard');
-    // });
+
 
     Route::group(['prefix' => 'hotel'], function () {
 
@@ -47,7 +49,11 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'reservation'], function () {
-        Route::get('', 'ReservationController@index');
+        Route::get('', 'ReservationController@index')->name('reservation.index');
+        Route::post('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
+        Route::get('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
+        Route::get('/calender', 'ReservationController@calenderViewIndex')->name('reservation.calender.index');
+        Route::get('/calender/search', 'ReservationController@calenderView')->name('reservation.calender.search');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
         Route::post('store', 'ReservationController@store')->name('reservation.store');
 

@@ -10,18 +10,12 @@ use App\Models\HotelRoom;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use Carbon\CarbonPeriod;
 class ReservationController extends Controller
 {
    public function index(Request $request){
 
-   		$reservations = Reservation::whereRaw('1');
-        if (!empty($request['from'] && !empty($request['to']))) {
-            $reservations = $reservations->whereBetween('from', [$request['from'],$request['to']]);
-        }
-        $reservations = $reservations->paginate(config('settings.variable.page_size'));
-
-       
+        $reservations= Reservation::paginate(30);
         return view('reservation.index', compact('reservations'));
    }
 
@@ -35,40 +29,85 @@ class ReservationController extends Controller
    public function store(Request $request){
        
         $params = $request->validate(config('settings.reservation.creation_validation_rules'));
+        $user = User::find(1);
 
-        $from = Carbon::parse($params['from']);
-        $to = Carbon::parse($params['to']);
-        $newDateTime = Carbon::now()->addMonth(3);
 
-        if($from == $to ){
+        foreach($request['room_info'] as $data){
+
+            $arr = explode('|',$data);
+            $room = HotelRoom::find($arr[1]);
+            
+            $params['room_id'] = $arr[1];
+            $params['reservation_date'] = $arr[0];
+            $params['rate'] =  $room->rate;
+            $params['reserved_by'] = $user->id;
+
+            $book= Reservation::create($params);
+        
+        }
+
+        // $full_details = Reservation::where('id',$book->id)->with('hotel','room')->first();
+      
+        // $admin = User::find(2);
+
+        // $email = new EmailHelper();
+        // $email->sendSuccessReservationAdminEmail($full_details,$user, $admin->email);
+        // $email->sendSuccessReservationUserEmail($full_details, $user->email);
+
+        return back()->with('success', 'Room  booked successfully');
+    }
+
+    public function calenderView(Request $request){
+        $hotels = Hotel::get();
+        $selectedMonth = $request->get('month');
+        $selectedYear =$request->get('year');
+        $startDate = Carbon::createFromDate($selectedYear, $selectedMonth)->startOfMonth();
+        $endDate = Carbon::createFromDate($selectedYear, $selectedMonth)->lastOfMonth();
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel'));
+        $dateRange = CarbonPeriod::create($startDate, $endDate);
+        $reservations = $selected->getReservations($startDate, $endDate)->toArray();
+        $reservations = array_flatten($reservations);
+        return view('reservation.calender-view', compact('hotels','selected','startDate','endDate','selectedMonth','selectedYear', 'dateRange','reservations'));
+
+    }
+
+    public function calenderViewIndex(){
+        $hotels = Hotel::get();
+        $now= Carbon::now();
+        $selectedMonth = $now->month;
+        $selectedYear = $now->year;
+        $startDate = Carbon::createFromDate($selectedYear, $selectedMonth)->startOfMonth();
+        $endDate = Carbon::createFromDate($selectedYear, $selectedMonth)->lastOfMonth();
+        return view('reservation.calender-view', compact('hotels','selectedMonth','selectedYear'));
+
+    }
+
+    public function availabilityCheck(Request $request){
+        $input = $request->validate(['hotel_id' => 'required', 'from' => 'required', 'to' => 'required']);
+        $newDateTime = now()->addMonth(3);
+        $now = now();
+
+        if($input['from'] < $now){
+            return back()->with('error', 'From date should not be less than current date ');
+        }
+        if($input['from']== $input['to'] ){
             return back()->with('error', 'From date and to date should not be same ');
         }
 
-        if($from > $to ){
+        if($input['from'] > $input['to'] ){
             return back()->with('error', 'From date should not be grater than to date ');
         }
 
-        if($from > $newDateTime){
+        if($input['from'] > $newDateTime){
             return back()->with('error', 'From date should not be grater than 3 monthes ');
         }
 
-        $room = HotelRoom::find($request['room_id']);
-        $user = User::find(1);
-        $diff_in_days = $to->diffInDays($from);;
-        $params['rate'] =  $room->rate * $diff_in_days ;
-        $params['reserved_by'] = $user->id;
-
-        $book= Reservation::create($params);
-
-        $full_details = Reservation::where('id',$book->id)->with('hotel','room')->first();
-      
-        $admin = User::find(2);
-
-        $email = new EmailHelper();
-        $email->sendSuccessReservationAdminEmail($full_details,$user, $admin->email);
-        $email->sendSuccessReservationUserEmail($full_details, $user->email);
-
-        return back()->with('success', 'Room  booked successfully');
+        $hotels = Hotel::select(['id', 'name', 'city'])->get();
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel_id'));
+        $dateRange = CarbonPeriod::create($input['from'], $input['to']);
+        $reservations = $selected->getReservations($input['from'], $input['to'])->toArray();
+        $reservations = array_flatten($reservations);
+        return view('reservation.availability', compact(['input', 'hotels', 'selected', 'dateRange','reservations']));
     }
 
 }

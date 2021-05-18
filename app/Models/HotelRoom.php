@@ -28,4 +28,8 @@ class HotelRoom extends Model
     {
         return $this->hotel->id . '-'. $this->id;
     }
+
+    public function reservations(){
+        return $this->hasMany('App\Models\Reservation','room_id');
+    }
 }

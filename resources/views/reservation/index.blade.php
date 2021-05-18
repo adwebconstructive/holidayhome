@@ -37,10 +37,10 @@
                         <table class="table table-hover hotels">
                             <thead>
                                 <tr>
+                                    <th>Reserved By</th>
                                     <th>Hotel</th>
                                     <th>Room No</th>
-                                    <th>From</th>
-                                    <th>To</th>
+                                    <th>Reserved Date</th>
                                     <th>Rate</th>
                                     <th>Transaction</th>
                                 </tr>
@@ -48,10 +48,11 @@
                             <tbody>
                                 @foreach($reservations as $data)
                                 <tr>
+                                    <td>{{$data->reserved_by}}</td>
                                      <td>{{$data->hotel->name}}</td>
                                      <td>{{ $data->room->room_number }}</td>
-                                     <td>{{$data->from}}</td>
-                                     <td>{{$data->to}}</td>
+                                     <td>{{$data->reserved_date}}</td>
+                                    
                                      <td>Rs. {{$data->rate}}</td>
                                      @if(empty($data->transaction_id))
                                      <td>Not Paid</td>

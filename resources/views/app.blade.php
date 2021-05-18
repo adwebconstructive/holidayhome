@@ -33,6 +33,7 @@
     <!-- Date Range-->
     <script src="{{ asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/frontend/css/style.css')}}"/>
     @yield('plugins')
 </head>
 
