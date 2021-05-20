@@ -155,12 +155,16 @@ class HotelController extends Controller
     {
         $reservation_data = $request->get('reservation_data');
         $hotel = Hotel::with(['rooms'])->find($hotel_id);
+        $last_res_id = Reservation::getNextReservationID();
         foreach(explode('|', $reservation_data) as $room_date){
             $room_date_arr = explode('~', $room_date);
             $room_id = $room_date_arr[0];
             $rate = $hotel->rooms->where('id', $room_id)->first()->rate;
             $reserved_date = $room_date_arr[1];
-            Reservation::create(compact('hotel_id', 'room_id', 'reserved_date', 'rate'));
+            $reservation = new Reservation();
+            $reservation->fill(compact('hotel_id', 'room_id', 'reserved_date', 'rate'));
+            $reservation->reservation_id = $last_res_id;
+            $reservation->save();
         }
         return redirect()->back()->with('success', 'Room reserved successfully');
     }

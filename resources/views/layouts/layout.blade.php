@@ -13,13 +13,14 @@
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     {{--custom css--}}
     <link rel="stylesheet" href="{{ asset('css/admin-custom.css')}}">
+    <!-- Table Row Merge -->
+    <script src="{{ asset('plugins/merge-adjacent-row/dist/row-merge-bundle.min.js') }}"></script>
 @endsection
 
 @section('content')
-    <div class="wrapper" >
+    <div class="wrapper">
         @include('layouts.header')
         @include('layouts.sidebar')
-
             @yield('subcontent')
         @include('layouts.footer')
     </div>
