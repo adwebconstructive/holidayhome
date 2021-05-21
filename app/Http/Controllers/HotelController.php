@@ -166,6 +166,9 @@ class HotelController extends Controller
             $reserved_date = $room_date_arr[1];
             Reservation::create(compact('hotel_id', 'room_id', 'reserved_date', 'rate'));
         }
+        if(!empty($request->get('admin'))){
+            return redirect()->route('reservation.index');
+        }
         return redirect()->back()->with('success', 'Room reserved successfully');
     }
 }

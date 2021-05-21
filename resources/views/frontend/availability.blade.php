@@ -121,7 +121,7 @@
                         <br>
                         {!! Form::open(['url' => route('hotel.reserve', ['id' => $selected->id]), 'class' => 'confirm']) !!}
                         <input type="hidden" name="reservation_data" :value="reservation_data">
-                        <input type="hidden" name="relative" value="@{{reletive}}">
+                        <input type="hidden" name="relative" value="@{{}}">
                         <button type="submit" class="btn pay-button"> Book and Pay ₹@{{ total }}</button>
                         {!! Form::close() !!}
                         <br>
