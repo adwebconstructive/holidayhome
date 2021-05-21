@@ -154,11 +154,15 @@ class HotelController extends Controller
     public function reserve($hotel_id, Request $request)
     {
         $reservation_data = $request->get('reservation_data');
+        $reletive  = $request->get('relative');
         $hotel = Hotel::with(['rooms'])->find($hotel_id);
         foreach(explode('|', $reservation_data) as $room_date){
             $room_date_arr = explode('~', $room_date);
             $room_id = $room_date_arr[0];
             $rate = $hotel->rooms->where('id', $room_id)->first()->rate;
+            if($reletive == true)
+                $rate = $hotel->rooms->where('id', $room_id)->first()->rate2;
+
             $reserved_date = $room_date_arr[1];
             Reservation::create(compact('hotel_id', 'room_id', 'reserved_date', 'rate'));
         }

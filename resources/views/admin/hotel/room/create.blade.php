@@ -42,6 +42,11 @@
                                 placeholder="rate" required>
                         </div>
                         <div class="form-group col-md-3">
+                            <label for="max_person_allowed">Relative Rate</label>
+                            <input type="number" name="rate2" class="form-control" value="{{ old('Rate2') }}"
+                                placeholder="relative rate" required>
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="price">Price</label>
                             <input type="number" name="price" class="form-control" value="{{ old('Price') }}"
                                 placeholder="price" required>

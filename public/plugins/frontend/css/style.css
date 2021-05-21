@@ -1,4 +1,4 @@
-html body{
+html body {
     font-family: "Source Sans Pro";
 }
 .block {
@@ -73,17 +73,16 @@ ul {
     color: #f8e9a7;
     text-shadow: 1px 1px 1px #0a0e14;
 }
-.banner-sub-text{
+.banner-sub-text {
     font-size: 1em;
     color: #f8e9a7;
     text-shadow: 1px 1px 1px #0a0e14;
 }
 
-.banner-background{
+.banner-background {
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 25px;
 }
-
 
 .home-form {
     width: 100%;
@@ -191,27 +190,27 @@ a.disabled {
     pointer-events: none;
 }
 
-.redb{
+.redb {
     border: 1px solid red;
 }
 
-.hotel-block{
+.hotel-block {
     border: 1px solid #dedede;
     padding: 10px;
     background-color: #fff9da;
 }
 
-h1{
+h1 {
     font-size: 4em;
 }
 
-.date-check{
+.date-check {
     position: absolute;
     z-index: 20;
     color: #063e06;
     font-size: 1.2em;
 }
-.overlay{
+.overlay {
     width: 75px;
     height: 80px;
     position: absolute;
@@ -234,3 +233,5 @@ h1{
 .pay-button:hover {
     background-color: #2f106d; /* Green */
 }
+
+/* Basic Rules */

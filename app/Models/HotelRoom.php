@@ -12,6 +12,7 @@ class HotelRoom extends Model
         'description',
         'max_person_allowed',
         'rate',
+        'rate2',
     ];
 
     public function hotel()
