@@ -29,7 +29,13 @@ class ReservationController extends Controller
    public function store(Request $request){
        
         $params = $request->validate(config('settings.reservation.creation_validation_rules'));
-        $user = User::find(1);
+
+        if(Auth::user()->role == 2){
+            $user = Auth::user();
+        }
+        else{
+            $user = User::where('emp_id',$request['emp_id'])->first();
+        }
 
 
         foreach($request['room_info'] as $data){

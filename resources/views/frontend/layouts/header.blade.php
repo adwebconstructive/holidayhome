@@ -44,10 +44,21 @@
 
     <div class="collapse navbar-collapse navbar-right" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto f-color">
-        <li><a href="index.php" class="nav-item">Home </a></li>
+        <li><a href="/" class="nav-item">Home </a></li>
         <li><a href="rooms-tariff.php" class="nav-item">Rooms & Tariff</a></li>
-        <li><a href="introduction.php" class="nav-item">Introduction</a></li>
-        <li><a href="gallery.php" class="nav-item">Gallery</a></li>
+        @auth
+          <li><a href="" class="nav-item">Profile</a></li>
+          <li><a href="" class="nav-item">My Booking</a></li>
+          <li><a href="{{route('logout')}}" class="nav-item">Logout</a></li>
+        @endauth
+
+
+        @guest
+
+          <li><a href="{{route('login')}}" class="nav-item">Login</a></li>
+
+        @endguest
+       
         <li><a href="contact.php" class="nav-item">Contact</a></li>
       </ul>
     </div>
