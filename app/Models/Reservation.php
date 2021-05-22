@@ -18,6 +18,11 @@ class Reservation extends Model
         return $this->belongsTo('App\Models\HotelRoom', 'room_id');
     }
 
+    public function getReservedForAttribute()
+    {
+        return $this->booking_for_relative ? "Relative" : "Self";
+    }
+
     public static function getNextReservationID()
     {
         $recent = static::latest()->first();

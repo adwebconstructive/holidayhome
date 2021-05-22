@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>Reservation ID</th>
                                     <th>Reserved By</th>
+                                    <th>Reserved for</th>
                                     <th>Hotel</th>
                                     <th>Room No</th>
                                     <th>Reserved Date</th>
@@ -50,6 +51,7 @@
                                     <tr>
                                         <td>{{$data->reservation_id}}</td>
                                         <td>{{$data->reserved_by}}</td>
+                                        <td>{{$data->reserved_for}}</td>
                                         <td>{{$data->hotel->name}}</td>
                                         <td>{{ $data->room->room_number }}</td>
                                         <td>
