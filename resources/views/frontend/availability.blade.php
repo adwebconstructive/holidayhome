@@ -80,8 +80,7 @@
                                             <div class="col-md-6 text-right">
                                                 <h3 v-if="booking_for_relative" class="head-1 rate text-success">
                                                     ₹ {{$room->rate2}}/Night </h3>
-                                                <h3 v-else class="head-1 rate2 text-success">₹ {{$room->rate}}
-                                                    /Night </h3>
+                                                <h3 v-else class="head-1 rate2 text-success">₹ {{$room->rate}}/Night </h3>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="head-2">Description: {{$room->description}} </div>
@@ -107,7 +106,12 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                            <div class="col-md-12 text-right">
+                                            <div class="col-md-8">
+                                                <h4 class="text-info m-0 head-1" v-if="booking_for_relative">
+                                                    Booking for relative! 
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-4 text-right">
                                                 <h3 class="m-0 head-1 text-primary">Total: <span
                                                         v-text="getRoomTotal({{ $room->id }})"></span>
                                                 </h3>
