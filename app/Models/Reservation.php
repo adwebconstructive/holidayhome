@@ -25,7 +25,7 @@ class Reservation extends Model
 
     public static function getNextReservationID()
     {
-        $recent = static::latest()->first();
+        $recent = static::orderBy('id', 'desc')->first();
         if ($recent != null) {
             $last_res_id = $recent->reservation_id;
             $year_part = intval(explode('-', $last_res_id)[0]);

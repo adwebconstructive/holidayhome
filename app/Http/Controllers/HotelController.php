@@ -78,7 +78,6 @@ class HotelController extends Controller
     }
 
 
-
     // Hotel Room
 
     public function createRoom($id)
@@ -154,12 +153,18 @@ class HotelController extends Controller
     public function reserve($hotel_id, Request $request)
     {
         $reservation_data = $request->get('reservation_data');
-        $booking_for_relative  = ($request->get('booking_for_relative') == "true");
+        $booking_for_relative = ($request->get('booking_for_relative') == "true");
         $hotel = Hotel::with(['rooms'])->find($hotel_id);
-        $next_id = Reservation::getNextReservationID();
-        foreach(explode('|', $reservation_data) as $room_date){
+        $next_id = null;
+        $last_room_id = null;
+        foreach (explode('|', $reservation_data) as $room_date) {
             $room_date_arr = explode('~', $room_date);
             $room_id = $room_date_arr[0];
+            if ($last_room_id != $room_id) {
+                $next_id = Reservation::getNextReservationID();
+                \Log::info("Last id: $last_room_id, room id: $room_id, Next id: $next_id");
+            }
+            $last_room_id = $room_id;
             $room = $hotel->rooms->where('id', $room_id)->first();
             $rate = $booking_for_relative ? $room->rate2 : $room->rate;
             $reserved_date = $room_date_arr[1];
@@ -169,7 +174,7 @@ class HotelController extends Controller
             $reservation->reservation_id = $next_id;
             $reservation->save();
         }
-        if(!empty($request->get('admin'))){
+        if (!empty($request->get('admin'))) {
             return redirect()->route('reservation.index');
         }
         return redirect()->back()->with('success', 'Room reserved successfully');
