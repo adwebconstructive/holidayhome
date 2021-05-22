@@ -38,13 +38,12 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 col-md-3 mt-3">
-                        <div class="custom-control">
-                           
-                                <input type="checkbox" v-model="reletive" @change=changeRate()>
-                                For Relative
-                           
-                          </div>
+                    <div class="col-sm-12 col-md-12 mt-3 text-right">
+                        <div class="custom-control mb-3">
+                            <span class="user-box">
+                                <input type="checkbox" v-model="booking_for_relative"> I am booking for a relative
+                            </span>
+                        </div>
                     </div>
                     @foreach ($selected->rooms as $room)
                         <div class="col-sm-12 col-md-12 mt-2">
@@ -79,8 +78,10 @@
                                                 <div class="head-1">Room No: {{$room->room_number}} </div>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                                <h3 class="head-1 rate text-success">₹ {{$room->rate}}/Night </h3>
-                                                <h3 class="head-1 rate2 text-success">₹ {{$room->rate2}}/Night </h3>
+                                                <h3 v-if="booking_for_relative" class="head-1 rate text-success">
+                                                    ₹ {{$room->rate2}}/Night </h3>
+                                                <h3 v-else class="head-1 rate2 text-success">₹ {{$room->rate}}
+                                                    /Night </h3>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="head-2">Description: {{$room->description}} </div>
@@ -107,7 +108,8 @@
                                                 @endforeach
                                             </div>
                                             <div class="col-md-12 text-right">
-                                                <h3 class="m-0 head-1 text-primary">Total: <span v-text="getRoomTotal({{ $room->id }})"></span>
+                                                <h3 class="m-0 head-1 text-primary">Total: <span
+                                                        v-text="getRoomTotal({{ $room->id }})"></span>
                                                 </h3>
                                             </div>
                                         </div>
@@ -121,7 +123,7 @@
                         <br>
                         {!! Form::open(['url' => route('hotel.reserve', ['id' => $selected->id]), 'class' => 'confirm']) !!}
                         <input type="hidden" name="reservation_data" :value="reservation_data">
-                        <input type="hidden" name="relative" value="@{{}}">
+                        <input type="hidden" name="booking_for_relative" :value="booking_for_relative">
                         <button type="submit" class="btn pay-button"> Book and Pay ₹@{{ total }}</button>
                         {!! Form::close() !!}
                         <br>
@@ -144,7 +146,7 @@
                 date_array: [],
                 reservations: @json($reservations),
                 hotel_id: "{{ $selected->id }}",
-                reletive:false,
+                booking_for_relative: false,
             },
             computed: {
                 reservation_data() {
@@ -153,11 +155,10 @@
                 total() {
                     return this.date_array.reduce((total = 0, item) => {
                         let room_id = item.split("~")[0];
-                        if(this.reletive == false){
+                        if (this.booking_for_relative == false) {
                             let rate = app.rates[room_id];
                             return total + rate;
-                        }
-                        else{
+                        } else {
                             let rate = app.rates2[room_id];
                             return total + rate;
                         }
@@ -170,10 +171,9 @@
                         let id = item.split("~")[0];
                         return parseInt(room_id) === parseInt(id);
                     });
-                    if(this.reletive == false){
+                    if (this.booking_for_relative == false) {
                         return entries.length * this.rates[room_id];
-                    }
-                    else{
+                    } else {
                         return entries.length * this.rates2[room_id];
                     }
                 },
@@ -187,21 +187,9 @@
                         this.date_array.push(value);
                     }
                 },
-                changeRate(){
-                   if(this.reletive == true){
-                        $(".rate").hide();
-                        $(".rate2").show();
-                   }
-                   else{
-                        $(".rate2").hide();
-                        $(".rate").show();
-                   }
-                }
             },
             created() {
                 $(document).ready(() => {
-                    $(".rate2").hide()
-
                     $(".daterange").daterangepicker({
                         locale: {
                             format: 'DD-MMM-YYYY'

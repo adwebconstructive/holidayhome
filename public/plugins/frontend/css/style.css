@@ -234,4 +234,16 @@ h1 {
     background-color: #2f106d; /* Green */
 }
 
+.user-box{
+    border: 2px solid rgba(82, 179, 82, 0.99);
+    padding: 10px;
+    font-size: 1.2em;
+    color: #184023;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #e6ffe6;
+}
+
+.user-box-text{
+}
 /* Basic Rules */
