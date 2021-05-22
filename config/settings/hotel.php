@@ -34,6 +34,7 @@ return [
         'description' => 'required|string',
         'max_person_allowed' => 'required|integer',
         'rate' => 'required|integer',
+        'rate2' => 'required|integer',
     ],
 
     'image_upload_validation_rules' => [

@@ -39,8 +39,22 @@
 
             </div> --}}
             <div class="row">
+                
                 <div class="col-sm-12 col-md-12 mt-2">
                 <h1 class="text-center mt-4 mb-0">{{$selected->name}}</h1>
+                </div>
+                <div class="col-sm-3 col-md-3 mt-3">
+                    <div class="custom-control">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                              <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="reletive" @change=changeRate()>
+                              <label class="custom-control-label" for="customSwitch1">For Relative</label>
+                            </div>
+                          </div>
+                            
+                            
+                       
+                      </div>
                 </div>
                 @foreach ($selected->rooms as $room)
                     <div class="col-sm-12 col-md-12 mt-2">
@@ -75,7 +89,8 @@
                                             <div class="head-1">Room No: {{$room->room_number}} </div>
                                         </div>
                                         <div class="col-md-6 text-right">
-                                            <h3 class="head-1 text-success">₹ {{$room->rate}}/Night </h3>
+                                            <h3 class="head-1 rate text-success">₹ {{$room->rate}}/Night </h3>
+                                            <h3 class="head-1 rate2 text-success">₹ {{$room->rate2}}/Night </h3>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="head-2">Description: {{$room->description}} </div>
@@ -117,6 +132,8 @@
                         </div>
                         <div class="col-md-6">
                             <input type="hidden" name="reservation_data" :value="reservation_data">
+                            <input type="hidden" name="relative" value="@{{reletive}}">
+                            <input type="hidden" name="admin" value="admin">
                             <input type="submit" class="btn btn-success btn-lg" value="Book Now">
                         </div>
                     </div>
@@ -136,9 +153,11 @@
             from: moment('{{ $input['from'] }}', 'YYYY-MM-DD'),
             to: moment('{{ $input['to'] }}', 'YYYY-MM-DD'),
             rates: @json($selected->rates()),
+            rates2: @json($selected->rates2()),
             date_array: [],
             reservations: @json($reservations),
             hotel_id: "{{ $selected->id }}",
+            reletive:false,
         },
         computed: {
             reservation_data() {
@@ -147,13 +166,30 @@
             total() {
                 return this.date_array.reduce((total = 0, item) => {
                     let room_id = item.split("~")[0];
-                    let rate = app.rates[room_id];
-                    console.log(rate);
-                    return total + rate;
+                    if(this.reletive == false){
+                        let rate = app.rates[room_id];
+                        return total + rate;
+                    }
+                    else{
+                        let rate = app.rates2[room_id];
+                        return total + rate;
+                    }
                 }, 0);
             }
         },
         methods: {
+            getRoomTotal(room_id) {
+                let entries = this.date_array.filter((item) => {
+                    let id = item.split("~")[0];
+                    return parseInt(room_id) === parseInt(id);
+                });
+                if(this.reletive == false){
+                    return entries.length * this.rates[room_id];
+                }
+                else{
+                    return entries.length * this.rates2[room_id];
+                }
+            },
             toggleDateSelect(value) {
                 if (this.date_array.includes(value)) {
                     const index = this.date_array.indexOf(value);
@@ -163,10 +199,22 @@
                 } else {
                     this.date_array.push(value);
                 }
+            },
+            changeRate(){
+               if(this.reletive == true){
+                    $(".rate").hide();
+                    $(".rate2").show();
+               }
+               else{
+                    $(".rate2").hide();
+                    $(".rate").show();
+               }
             }
         },
         created() {
             $(document).ready(() => {
+                $(".rate2").hide()
+
                 $(".daterange").daterangepicker({
                     locale: {
                         format: 'DD-MMM-YYYY'
@@ -183,5 +231,6 @@
         }
     });
 </script>
+
 
 @endsection

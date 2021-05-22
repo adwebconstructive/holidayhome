@@ -88,6 +88,7 @@
                             <div class="col-md-6 text-right">
                                 <h4 class="text-success">
                                     ₹{{ $room->rate }}/Night
+                                    ₹{{ $room->rate2 }}/Night
                                 </h4>
                             </div>
                         </div>
@@ -143,6 +144,12 @@
                                         <label for="rate">Rate / Night</label>
                                         {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder'
                                         =>'Rate',
+                                        'required']) !!}
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="rate2">Relative Rate / Night</label>
+                                        {!! Form::text('rate2', null, ['class' => 'form-control', 'placeholder'
+                                        =>'Relative Rate',
                                         'required']) !!}
                                     </div>
                                     <div class="form-group col-md-12">
@@ -221,6 +228,12 @@
                                 <div class="form-group col-md-4">
                                     <label for="rate">Rate / Night</label>
                                     {!! Form::text('rate', null, ['class' => 'form-control', 'placeholder' =>'Rate',
+                                    'required']) !!}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="rate2">Relative Rate / Night</label>
+                                    {!! Form::text('rate2', null, ['class' => 'form-control', 'placeholder'
+                                    =>'Relative Rate',
                                     'required']) !!}
                                 </div>
                                 <div class="form-group col-md-12">

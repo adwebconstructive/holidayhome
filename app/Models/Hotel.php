@@ -50,6 +50,10 @@ class Hotel extends Model
         return $this->rooms->pluck('rate','id');
     }
 
+    public function rates2(){
+        return $this->rooms->pluck('rate2','id');
+    }
+
     public function reservations(){
         return $this->hasMany(Reservation::class);
     }
