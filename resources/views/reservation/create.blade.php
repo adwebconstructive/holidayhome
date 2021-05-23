@@ -36,7 +36,7 @@
                     
                     <div class="form-group col-6">
                         <label>Employee Id:</label>
-                        <input  class="form-control"  type="text" name="emp_id" value="">
+                        <input  class="form-control"  type="text" name="emp_id" value="" required>
                     </div>
                 </div>
                 </div>

@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
 use App\Models\HotelImage;
-
+use App\User;
+use Auth;
 class HotelController extends Controller
 {
     public function index(Request $request)
@@ -151,7 +152,16 @@ class HotelController extends Controller
     }
 
     public function reserve($hotel_id, Request $request)
-    {
+    {   
+        if(Auth::user()->role == 2){
+            $user = Auth::user();
+        }
+        else{
+            $user = User::where('emp_id',$request['emp_id'])->first();
+            if(empty($user))
+            return back()->with('error', 'Employee Id not Found');
+        }
+        $reserved_by = $user->id;
         $reservation_data = $request->get('reservation_data');
         $booking_for_relative = ($request->get('booking_for_relative') == "true");
         $hotel = Hotel::with(['rooms'])->find($hotel_id);

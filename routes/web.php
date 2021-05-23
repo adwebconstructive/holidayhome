@@ -22,8 +22,8 @@ Route::group(['prefix' => ''], function(){
     Route::get('availability', 'HomeController@availability');
 });
 
-Route::group(['prefix' => 'admin'], function () {
-
+Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'CheckAdminRoleMiddleware']], function () {
+        Route::get('dashboard', 'DashboardController@index')->name('admin.dashboard');
 
     Route::group(['prefix' => 'hotel'], function () {
 
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::post('', 'HotelController@store')->name('hotel.store');
         Route::post('image', 'HotelController@uploadHotelImages')->name('hotel.image');
-        Route::post('{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
+        // Route::post('{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
         Route::post('{id}', 'HotelController@update')->name('hotel.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
@@ -46,15 +46,37 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('delete/{room_id?}', 'HotelController@deleteRoom')->name('hotel.room.delete');
         });
     });
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('', 'UserController@index')->name('user.index');
+        Route::get('/create', 'UserController@create')->name('user.create');
+        Route::get('/edit/{id}', 'UserController@edit')->name('user.edit');
+        Route::post('/store', 'UserController@store')->name('user.store');
+        Route::post('/update', 'UserController@update')->name('user.update');
+        Route::get('/changeStatus/{id}', 'UserController@changeUserStatus')->name('user.change.status');
+        Route::get('/delete/{id}', 'UserController@delete')->name('user.delete');
+    });
 });
 
-Route::group(['prefix' => 'reservation'], function () {
+Route::group(['prefix' => 'reservation' ,'middleware' => ['auth']], function () {
         Route::get('', 'ReservationController@index')->name('reservation.index');
         Route::post('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
         Route::get('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
         Route::get('/calender', 'ReservationController@calenderViewIndex')->name('reservation.calender.index');
         Route::get('/calender/search', 'ReservationController@calenderView')->name('reservation.calender.search');
+        Route::post('hotel/{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
         Route::post('store', 'ReservationController@store')->name('reservation.store');
 
     });
+
+// Auth::routes();
+Route::get('login', 'Auth\LoginController@showLoginForm');
+Route::post('login', 'Auth\LoginController@login')->name('login');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('/home', 'HomeController@index')->name('home');
