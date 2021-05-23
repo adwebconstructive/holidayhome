@@ -24,10 +24,10 @@
                         <label for="phone_number">Phone Numeber</label>
                         <input name="phone_number" class="form-control" value="{{old('phone_number')}}" placeholder="phone_number">
                     </div>
-                    <div class="form-group col-6">
+                    {{-- <div class="form-group col-6">
                         <label for="password">Password</label>
                         <input name="password" class="form-control" value="{{old('password')}}" placeholder="password" required>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- /.card-body -->

@@ -10,6 +10,10 @@ use App\Models\HotelRoom;
 use App\Models\HotelImage;
 use App\User;
 use Auth;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+
+
 class HotelController extends Controller
 {
     public function index(Request $request)
@@ -153,14 +157,8 @@ class HotelController extends Controller
 
     public function reserve($hotel_id, Request $request)
     {   
-        if(Auth::user()->role == 2){
-            $user = Auth::user();
-        }
-        else{
-            $user = User::where('emp_id',$request['emp_id'])->first();
-            if(empty($user))
-            return back()->with('error', 'Employee Id not Found');
-        }
+        
+        $user = Auth::user();
         $reserved_by = $user->id;
         $reservation_data = $request->get('reservation_data');
         $booking_for_relative = ($request->get('booking_for_relative') == "true");
@@ -179,13 +177,63 @@ class HotelController extends Controller
             $rate = $booking_for_relative ? $room->rate2 : $room->rate;
             $reserved_date = $room_date_arr[1];
             $reservation = new Reservation();
-            $reservation->fill(compact('hotel_id', 'room_id', 'reserved_date', 'booking_for_relative'));
+            $reservation->fill(compact('hotel_id','reserved_by','room_id', 'reserved_date', 'booking_for_relative'));
             $reservation->rate = $rate;
             $reservation->reservation_id = $next_id;
             $reservation->save();
         }
-        if (!empty($request->get('admin'))) {
-            return redirect()->route('reservation.index');
+        return redirect()->back()->with('success', 'Room reserved successfully');
+    }
+
+    public function reserveAdmin(Request $request){
+
+        $user = User::where('emp_id',$request['emp_id'])->first();
+        if(empty($user)){
+            return back()->with('error', 'Employee Id not Found');
+        }
+
+        $now = now();
+
+        if ($request['from'] < $now) {
+            return back()->with('error', 'From date should not be less than current date ');
+        }
+        if ($request['from'] == $request['to']) {
+            return back()->with('error', 'From date and to date should not be same ');
+        }
+
+        if ($request['from'] > $request['to']) {
+            return back()->with('error', 'From date should not be grater than to date ');
+        }
+
+        $selected = Hotel::with(['images', 'rooms'])->find($request->get('hotel_id'));
+        $dateRange = CarbonPeriod::create($request['from'], $request['to']);
+        $reservations = $selected->getReservations($request['from'], $request['to'])->toArray();
+        if(!empty($reservations)){
+            return back()->with('error', 'date is not available');
+        }
+        else{
+            $hotel_id = $request->get('hotel_id');
+            $reserved_by = $user->id;
+            $booking_for_relative = ($request->get('booking_for_relative') == "on");
+            $hotel = Hotel::with(['rooms'])->find($request->get('hotel_id'));
+            $next_id = null;
+            $last_room_id = null;
+            foreach ($dateRange as $room_date) {
+                $room_id = $request->get('room_id');
+                if ($last_room_id != $room_id) {
+                    $next_id = Reservation::getNextReservationID();
+                    \Log::info("Last id: $last_room_id, room id: $room_id, Next id: $next_id");
+                }
+                $last_room_id = $room_id;
+                $room = $hotel->rooms->where('id', $room_id)->first();
+                $rate = $booking_for_relative ? $room->rate2 : $room->rate;
+                $reserved_date = $room_date;
+                $reservation = new Reservation();
+                $reservation->fill(compact('hotel_id','reserved_by','room_id', 'reserved_date', 'booking_for_relative'));
+                $reservation->rate = $rate;
+                $reservation->reservation_id = $next_id;
+                $reservation->save();
+            }
         }
         return redirect()->back()->with('success', 'Room reserved successfully');
     }

@@ -22,7 +22,7 @@ Route::group(['prefix' => ''], function(){
     Route::get('availability', 'HomeController@availability');
 });
 
-Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'CheckAdminRoleMiddleware']], function () {
+Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'check.admin']], function () {
         Route::get('dashboard', 'DashboardController@index')->name('admin.dashboard');
 
     Route::group(['prefix' => 'hotel'], function () {
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'CheckAdminRoleMiddl
 
         Route::post('', 'HotelController@store')->name('hotel.store');
         Route::post('image', 'HotelController@uploadHotelImages')->name('hotel.image');
-        // Route::post('{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
+        Route::post('reserve', 'HotelController@reserveAdmin')->name('hotel.reserve.admin');
         Route::post('{id}', 'HotelController@update')->name('hotel.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
@@ -46,8 +46,8 @@ Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'CheckAdminRoleMiddl
             Route::get('delete/{room_id?}', 'HotelController@deleteRoom')->name('hotel.room.delete');
         });
     });
-
-    Route::group(['prefix' => 'user'], function () {
+    
+    Route::group(['prefix' => 'user' ], function () {
         Route::get('', 'UserController@index')->name('user.index');
         Route::get('/create', 'UserController@create')->name('user.create');
         Route::get('/edit/{id}', 'UserController@edit')->name('user.edit');
@@ -55,8 +55,12 @@ Route::group(['prefix' => 'admin' ,'middleware' => ['auth', 'CheckAdminRoleMiddl
         Route::post('/update', 'UserController@update')->name('user.update');
         Route::get('/changeStatus/{id}', 'UserController@changeUserStatus')->name('user.change.status');
         Route::get('/delete/{id}', 'UserController@delete')->name('user.delete');
+       
     });
 });
+
+
+// User protected  Route
 
 Route::group(['prefix' => 'reservation' ,'middleware' => ['auth']], function () {
         Route::get('', 'ReservationController@index')->name('reservation.index');
@@ -67,6 +71,11 @@ Route::group(['prefix' => 'reservation' ,'middleware' => ['auth']], function () 
         Route::post('hotel/{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
         Route::post('store', 'ReservationController@store')->name('reservation.store');
+    });
+
+Route::group(['prefix' => '' ,'middleware' => ['auth']], function () {
+        Route::get('/myReservation', 'UserController@myReservation')->name('user.reservation');
+        Route::get('/profile', 'UserController@profile')->name('user.profile');
 
     });
 

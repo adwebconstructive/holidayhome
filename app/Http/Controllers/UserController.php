@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Auth;
 class UserController extends Controller
 {
 
@@ -19,7 +20,7 @@ class UserController extends Controller
                 $request['table_search'] . '%'
             );
         }
-        $users = $users->paginate(config('settings.variable.page_size'));
+        $users = $users->withTrashed()->paginate(config('settings.variable.page_size'));
 
         return view('admin.user.index',compact(['users']));
     }
@@ -44,7 +45,7 @@ class UserController extends Controller
             'name' => $params['name'],
             'email' => $params['email'],
             'phone_number' => $params['phone_number'],
-            'password' => Hash::make($params['password']),
+            'password' => Hash::make('123456'),
         ]);
         return back()->with('success', 'user created successfully');
     }
@@ -76,12 +77,11 @@ class UserController extends Controller
     public function changeUserStatus($id)
     {
         $user = User::find($id);
-        if ($user->enable== 0) {
-            $user->enable = 1;
+        if (!empty($user)) {
+            $user->delete();
         } else {
-            $user->enable = 0;
+            User::onlyTrashed()->where('id', $id)->restore();
         }
-        $user->save();
         return back();
     }
 
@@ -91,4 +91,31 @@ class UserController extends Controller
         $user->delete();
         return back()->with('success', 'User deleted successfully');
     }
+
+    public function myReservation(Request $request)
+    {
+        $reservations = collect([]);
+        $db_data = Reservation::where('reserved_by',Auth::user()->id)->get();
+        $last = null;
+        foreach($db_data as $reservation){
+            if($last != null && $last->reservation_id == $reservation->reservation_id){
+                $last->reserved_dates->push($reservation->reserved_date);
+            }else{
+                if($last){
+                    $reservations->push($last);
+                }
+                $last = $reservation;
+                $last->reserved_dates = collect([$reservation->reserved_date]);
+            }
+        }
+        $reservations->push($last);
+        return view('frontend.reservation', compact('reservations'));
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('frontend.profile', compact('user'));
+    }
+
 }

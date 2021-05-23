@@ -55,7 +55,7 @@
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{route('user.change.status',$user->id)}}" class="btn btn-warning">
-                                                @if($user->enable == 1)
+                                                @if($user->deleted_at != "")
                                                 <i class="fas fa-arrow-circle-up"></i> Enable
                                                 @else
                                                 <i class="fas fa-arrow-circle-down"></i> Disable
@@ -65,8 +65,8 @@
                                             <a href="{{route('user.edit',$user->id)}}" class="btn btn-info">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a class="btn btn-danger confirm" href="{{route('user.delete',$user->id)}}">
-                                                <i class="fas fa-trash"></i> Delete </a>
+                                            {{-- <a class="btn btn-danger confirm" href="{{route('user.delete',$user->id)}}">
+                                                <i class="fas fa-trash"></i> Delete </a> --}}
                                         </div>
                                     </td>
                                 </tr>

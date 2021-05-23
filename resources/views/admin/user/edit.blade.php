@@ -25,10 +25,6 @@
                         <label for="phone_number">Phone Numeber</label>
                         <input name="phone_number" class="form-control" value="{{$user->phone_number}}" placeholder="phone_number">
                     </div>
-                    <div class="form-group col-6">
-                        <label for="password">Password</label>
-                        <input name="password" class="form-control" value="" placeholder="password">
-                    </div>
                 </div>
             </div>
             <!-- /.card-body -->

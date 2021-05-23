@@ -47,8 +47,8 @@
         <li><a href="/" class="nav-item">Home </a></li>
         <li><a href="rooms-tariff.php" class="nav-item">Rooms & Tariff</a></li>
         @auth
-          <li><a href="" class="nav-item">Profile</a></li>
-          <li><a href="" class="nav-item">My Booking</a></li>
+          <li><a href="{{route('user.profile')}}" class="nav-item">Profile</a></li>
+          <li><a href="{{route('user.reservation')}}" class="nav-item">My Booking</a></li>
           <li><a href="{{route('logout')}}" class="nav-item">Logout</a></li>
         @endauth
 

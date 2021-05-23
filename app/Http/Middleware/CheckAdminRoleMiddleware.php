@@ -18,8 +18,9 @@ class CheckAdminRoleMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if(Auth::user()->role == 2)
+            if(Auth::user()->role == 2){
                 return redirect(RouteServiceProvider::HOME);
+            }
         }
         return $next($request);
     }

@@ -1,0 +1,83 @@
+@extends('frontend.layouts.layout')
+
+@section('subcontent')
+
+
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">My Booking</h3>
+                    {{--
+                                            <div class="card-tools">
+                                                <form action="{{route('hotels.index')}}" method="get">
+                                                    <div class="input-group input-group-sm" style="width: 250px;">
+
+                                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search by name">
+                                                        <div class="input-group-append">
+                                                            <button type="submit" class="btn btn-default">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div> --}}
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover reservations">
+                        <thead>
+                        <tr>
+                            <th>Reservation ID</th>
+                            <th>Reserved By</th>
+                            <th>Reserved for</th>
+                            <th>Hotel</th>
+                            <th>Room No</th>
+                            <th>Reserved Date</th>
+                            <th>Rate</th>
+                            <th>Transaction</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($reservations as $data)
+                        @if($data)
+                            <tr>
+                                <td>{{$data->reservation_id}}</td>
+                                <td>{{$data->user->name}}/{{$data->user->emp_id}}</td>
+                                <td>{{$data->reserved_for}}</td>
+                                <td>{{$data->hotel->name}}</td>
+                                <td>{{ $data->room->room_number }}</td>
+                                <td>
+                                    @foreach($data->reserved_dates as $date)
+                                        {{ $date }} <br>
+                                    @endforeach
+                                </td>
+                                <td>Rs. {{$data->rate * $data->reserved_dates->count()}} </td>
+                                @if(empty($data->transaction_id))
+                                    <td>Not Paid</td>
+                                @else
+                                    <td>Paid</td>
+                                @endif
+                            </tr>
+                        @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    {{--                            {{ $reservations->links() }}--}}
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</div>
+<br>
+<br>
+<br>
+<br>
+@endsection

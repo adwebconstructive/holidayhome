@@ -23,6 +23,11 @@ class Reservation extends Model
         return $this->booking_for_relative ? "Relative" : "Self";
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'reserved_by','id')->withTrashed();
+    }
+
     public static function getNextReservationID()
     {
         $recent = static::orderBy('id', 'desc')->first();
