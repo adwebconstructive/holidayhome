@@ -18,14 +18,18 @@ class Reservation extends Model
         return $this->belongsTo('App\Models\HotelRoom', 'room_id');
     }
 
-    public function getReservedForAttribute()
+    public function getReservedTypeAttribute()
     {
         return $this->booking_for_relative ? "Relative" : "Self";
     }
 
-    public function user()
+    public function reservedByUser()
     {
         return $this->belongsTo('App\User', 'reserved_by','id')->withTrashed()->withDefault(['name' => null]);
+    }
+    public function reservedForUser()
+    {
+        return $this->belongsTo('App\User', 'reserved_for','id')->withTrashed()->withDefault(['name' => null]);
     }
 
     public static function getNextReservationID()
