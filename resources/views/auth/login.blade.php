@@ -14,11 +14,9 @@
 
                         <div class="form-group row">
                             <label for="empID" class="col-md-4 col-form-label text-md-right">{{ __('Emp ID') }}</label>
-
                             <div class="col-md-6">
                                 <input id="emp_id"  class="form-control @error('emp_id') is-invalid @enderror" name="emp_id" value="{{ old('emp_id') }}" required autocomplete="emp_id" autofocus>
-
-                                @error('empID')
+                                @error('emp_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -41,10 +39,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
+                            <div class=" offset-md-4 col-md-8">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
