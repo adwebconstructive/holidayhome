@@ -2,9 +2,9 @@
 
 @section('plugins')
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('plugins/AdminLTE/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('plugins/AdminLTE3/dist/css/adminlte.min.css')}}">
     <!-- AdminLTE -->
-    <script src="{{ asset('plugins/AdminLTE/dist/js/adminlte.js')}}"></script>
+    <script src="{{ asset('plugins/AdminLTE3/dist/js/adminlte.js')}}"></script>
     <!-- SweetAlert -->
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
     <!-- Bootstrap custom file input -->
