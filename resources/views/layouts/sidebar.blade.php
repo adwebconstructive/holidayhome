@@ -12,15 +12,15 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('plugins/AdminLTE/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+                <i class="fas fa-user-circle text-white" style="font-size: 2em"></i>
             </div>
             <div class="info">
-                <a href="#" class="d-block">Super Admin</a>
+                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
+        {{--<div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
@@ -29,7 +29,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -45,30 +45,31 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('hotel.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Hotels
-                        </p>
-                    </a>
-                </li>
-                
-                 <li class="nav-item">
-                    <a href="{{url('reservation')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Reservation
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{route('user.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-circle"></i>
                         <p>
                             Users
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('hotel.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-building"></i>
+                        <p>
+                            Hotels
+                        </p>
+                    </a>
+                </li>
+
+                 <li class="nav-item">
+                    <a href="{{route('reservation.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-pen-alt"></i>
+                        <p>
+                            Reservation
+                        </p>
+                    </a>
+                </li>
+
 
             </ul>
         </nav>
