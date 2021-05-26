@@ -188,8 +188,8 @@
         const app = new Vue({
             el: '#root',
             data: {
-                from: moment().add(1, 'days'),
-                to: moment().add(2, 'days'),
+                from: moment().add(1, 'days').format('YYYY-MM-DD'),
+                to: moment().add(2, 'days').format('YYYY-MM-DD'),
             },
             methods: {
                 availability(hotel_id) {
@@ -202,8 +202,8 @@
                         locale: {
                             format: 'DD-MMM-YYYY'
                         },
-                        startDate: this.from,
-                        endDate: this.to,
+                        startDate: moment().add(1, 'days'),
+                        endDate: moment().add(2, 'days'),
                         minDate: moment().add(1, 'days'),
                         maxDate: moment().add(90, 'days')
                     }, function (start, end, label) {
