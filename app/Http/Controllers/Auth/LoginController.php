@@ -43,4 +43,22 @@ class LoginController extends Controller
     {
         return 'emp_id';
     }
+    public function redirectTo(){
+        
+        // User role
+        $role = Auth::user()->role; 
+        
+        // Check user role
+        switch ($role) {
+            case '1':
+                    return '/admin/dashboard';
+                break;
+            case '2':
+                    return '/home';
+                break; 
+            default:
+                    return '/login'; 
+                break;
+        }
+    }
 }

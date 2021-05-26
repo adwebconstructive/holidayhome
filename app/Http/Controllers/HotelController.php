@@ -160,6 +160,7 @@ class HotelController extends Controller
         
         $user = Auth::user();
         $reserved_by = $user->id;
+        $reserved_for = $user->id;
         $reservation_data = $request->get('reservation_data');
         $booking_for_relative = ($request->get('booking_for_relative') == "true");
         $hotel = Hotel::with(['rooms'])->find($hotel_id);
@@ -177,7 +178,7 @@ class HotelController extends Controller
             $rate = $booking_for_relative ? $room->rate2 : $room->rate;
             $reserved_date = $room_date_arr[1];
             $reservation = new Reservation();
-            $reservation->fill(compact('hotel_id','reserved_by','room_id', 'reserved_date', 'booking_for_relative'));
+            $reservation->fill(compact('hotel_id','reserved_by','reserved_for','room_id', 'reserved_date', 'booking_for_relative'));
             $reservation->rate = $rate;
             $reservation->reservation_id = $next_id;
             $reservation->save();
@@ -214,6 +215,7 @@ class HotelController extends Controller
         else{
             $hotel_id = $request->get('hotel_id');
             $reserved_by = $user->id;
+            $reserved_for = Auth::user()->id;
             $booking_for_relative = ($request->get('booking_for_relative') == "on");
             $hotel = Hotel::with(['rooms'])->find($request->get('hotel_id'));
             $next_id = null;
@@ -229,7 +231,7 @@ class HotelController extends Controller
                 $rate = $booking_for_relative ? $room->rate2 : $room->rate;
                 $reserved_date = $room_date;
                 $reservation = new Reservation();
-                $reservation->fill(compact('hotel_id','reserved_by','room_id', 'reserved_date', 'booking_for_relative'));
+                $reservation->fill(compact('hotel_id','reserved_by','reserved_for','room_id', 'reserved_date', 'booking_for_relative'));
                 $reservation->rate = $rate;
                 $reservation->reservation_id = $next_id;
                 $reservation->save();

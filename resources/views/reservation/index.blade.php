@@ -39,6 +39,7 @@
                                     <th>Reservation ID</th>
                                     <th>Reserved By</th>
                                     <th>Reserved for</th>
+                                    <th>Reserved Type</th>
                                     <th>Hotel</th>
                                     <th>Room No</th>
                                     <th>Reserved Date</th>
@@ -51,8 +52,9 @@
                                 @if($data)
                                     <tr>
                                         <td>{{$data->reservation_id}}</td>
-                                        <td>{{$data->user->name}}/{{$data->user->emp_id}}</td>
-                                        <td>{{$data->reserved_for}}</td>
+                                        <td>{{$data->reservedByUser->name}}/{{$data->reservedByUser->emp_id}}</td>
+                                        <td>{{$data->reservedForUser->name}}/{{$data->reservedForUser->emp_id}}</td>
+                                        <td>{{$data->reserved_type}}</td>
                                         <td>{{$data->hotel->name}}</td>
                                         <td>{{ $data->room->room_number }}</td>
                                         <td>
