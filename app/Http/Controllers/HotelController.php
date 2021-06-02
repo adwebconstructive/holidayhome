@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
 use App\Models\HotelImage;
+use App\Models\ReservationDetail;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -182,6 +183,12 @@ class HotelController extends Controller
             $reservation->rate = $rate;
             $reservation->reservation_id = $next_id;
             $reservation->save();
+
+            $reservation_detail = new ReservationDetail();
+            $reservation_detail->room_id = $room_id;
+            $reservation_detail->reservation_date = $reserved_date;
+            $reservation_detail->save();
+
         }
         return redirect()->back()->with('success', 'Room reserved successfully');
     }
@@ -235,6 +242,10 @@ class HotelController extends Controller
                 $reservation->rate = $rate;
                 $reservation->reservation_id = $next_id;
                 $reservation->save();
+                $reservation_detail = new ReservationDetail();
+                $reservation_detail->room_id = $room_id;
+                $reservation_detail->reservation_date = $reserved_date;
+                $reservation_detail->save();
             }
         }
         return redirect()->back()->with('success', 'Room reserved successfully');
