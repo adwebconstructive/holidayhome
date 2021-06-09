@@ -14,6 +14,12 @@ class HomeController extends Controller
 {
     public function index()
     {
+        if(auth()->check()){
+            if(auth()->user()->role == '1'){
+                return redirect()->to(route('admin.dashboard'));
+            }
+        }
+
         $hotels = Hotel::where('enabled', 1)->get();
         return view('frontend.index', compact('hotels'));
     }
@@ -31,6 +37,7 @@ class HomeController extends Controller
             $message = "From date cannot be less than current date!";
             $redirect = true;
         }
+        
         if ($to->gt(now()->addDays(90))) {
             $message = "To date cannot be more than 90 days from from date!";
             $redirect = true;
