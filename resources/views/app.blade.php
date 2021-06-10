@@ -75,7 +75,7 @@
             });
         });
 
-        @if(session()-> has('success'))
+        @if(session()->has('success'))
         Swal.fire({
             icon: 'success',
             title: 'Success',

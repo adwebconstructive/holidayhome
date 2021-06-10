@@ -16,6 +16,13 @@ use Carbon\CarbonPeriod;
 
 class HotelController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('check.admin')->except('reserve');
+    }
+
     public function index(Request $request)
     {
         $hotels = Hotel::whereRaw('1');
@@ -157,23 +164,16 @@ class HotelController extends Controller
 
     public function reserve($hotel_id, Request $request)
     {   
-        
-        $user = Auth::user();
+        $user = auth()->user();
         $reserved_by = $user->id;
         $reserved_for = $user->id;
         $reservation_data = $request->get('reservation_data');
         $booking_for_relative = ($request->get('booking_for_relative') == "true");
         $hotel = Hotel::with(['rooms'])->find($hotel_id);
-        $next_id = null;
-        $last_room_id = null;
+        $next_id = Reservation::getNextReservationID();
         foreach (explode('|', $reservation_data) as $room_date) {
             $room_date_arr = explode('~', $room_date);
             $room_id = $room_date_arr[0];
-            if ($last_room_id != $room_id) {
-                $next_id = Reservation::getNextReservationID();
-                \Log::info("Last id: $last_room_id, room id: $room_id, Next id: $next_id");
-            }
-            $last_room_id = $room_id;
             $room = $hotel->rooms->where('id', $room_id)->first();
             $rate = $booking_for_relative ? $room->rate2 : $room->rate;
             $reserved_date = $room_date_arr[1];

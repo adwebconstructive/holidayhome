@@ -19,7 +19,7 @@ Route::group(['prefix' => ''], function () {
     Route::view('contact', 'frontend.contact');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check.admin']], function () {
+Route::group(['prefix' => 'admin'], function () {
     Route::get('dashboard', 'DashboardController@index')->name('admin.dashboard');
 
     Route::group(['prefix' => 'hotel'], function () {
@@ -30,7 +30,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check.admin']], fun
 
         Route::post('', 'HotelController@store')->name('hotel.store');
         Route::post('image', 'HotelController@uploadHotelImages')->name('hotel.image');
-        Route::post('reserve', 'HotelController@reserveAdmin')->name('hotel.reserve.admin');
+        Route::post('reserve/{id}', 'HotelController@reserve')->name('hotel.reserve');
         Route::post('{id}', 'HotelController@update')->name('hotel.update');
         Route::get('delete/{id}', 'HotelController@delete')->name('hotel.delete');
 
@@ -55,11 +55,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check.admin']], fun
 
     Route::group(['prefix' => 'reservation', 'middleware' => ['auth']], function () {
         Route::get('', 'ReservationController@index')->name('reservation.index');
-        Route::post('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
+        Route::post('check-avilable', 'ReservationController@availabilityCheck');
         Route::get('check-avilable', 'ReservationController@availabilityCheck')->name('reservation.availability');
         Route::get('/calender', 'ReservationController@calenderViewIndex')->name('reservation.calender.index');
         Route::get('/calender/search', 'ReservationController@calenderView')->name('reservation.calender.search');
-        Route::post('hotel/{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
         Route::get('create', 'ReservationController@create')->name('reservation.create');
         Route::post('store', 'ReservationController@store')->name('reservation.store');
     });
