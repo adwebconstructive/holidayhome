@@ -13,19 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/contact', function () {
-    return view('frontend.contact');
-});
-
 Route::group(['prefix' => ''], function () {
     Route::get('', 'HomeController@index');
     Route::get('availability', 'HomeController@availability');
+    Route::view('contact', 'frontend.contact');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check.admin']], function () {
     Route::get('dashboard', 'DashboardController@index')->name('admin.dashboard');
-    Route::group(['prefix' => 'hotel'], function () {
 
+    Route::group(['prefix' => 'hotel'], function () {
         Route::get('', 'HotelController@index')->name('hotel.index');
         Route::get('create', 'HotelController@create')->name('hotel.create');
         Route::get('{id?}', 'HotelController@view')->name('hotel.view');
@@ -55,8 +52,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check.admin']], fun
         Route::get('/changeStatus/{id}', 'UserController@changeUserStatus')->name('user.change.status');
         Route::get('/delete/{id}', 'UserController@delete')->name('user.delete');
     });
-
-    // User protected  Route
 
     Route::group(['prefix' => 'reservation', 'middleware' => ['auth']], function () {
         Route::get('', 'ReservationController@index')->name('reservation.index');
