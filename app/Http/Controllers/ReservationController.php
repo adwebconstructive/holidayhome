@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Hotel;
 use App\Models\HotelRoom;
+use App\Models\Refund;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -135,5 +136,39 @@ class ReservationController extends Controller
         $reservations = array_flatten($reservations);
         return view('reservation.availability', compact(['input', 'hotels', 'selected', 'dateRange', 'reservations']));
     }
+
+    public function cancel($reservation_id){
+        $reservations = Reservation::where('reservation_id',$reservation_id)->get();
+        $total=0;
+        foreach($reservations as $data){
+            $data->cancelled_by = Auth::user()->id;
+            $data->cancelled_at = now();
+            $data->save();
+            $total+= $data->rate;
+        }
+        if($reservations->count() > 0){
+
+            $dateRange = CarbonPeriod::create(now(), $data->reserved_date);
+            $interval = $dateRange->count();
+
+            if($interval > 60 ){
+                $total= ($total*75)/100; 
+            }
+            if($interval< 60 && $interval > 30){
+                $total= ($total*50)/100; 
+            }
+            if($interval< 30){
+                $total= ($total*25)/100; 
+            }
+            $refund = new Refund();
+            $refund->amount = $total;
+            $refund->reservation_id = $reservation_id;
+            $refund->status = "created";
+            $refund->save();
+        }
+
+        return back()->with('success','successfully canceled');
+        
+    }   
 
 }

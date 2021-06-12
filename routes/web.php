@@ -69,6 +69,7 @@ Route::group(['prefix' => '', 'middleware' => ['auth']], function () {
     Route::get('/myReservation', 'UserController@myReservation')->name('user.reservation');
     Route::get('/profile', 'UserController@profile')->name('user.profile');
     Route::post('hotel/{id}/reserve', 'HotelController@reserve')->name('hotel.reserve');
+    Route::get('/cancel/reserved/{id}','ReservationController@cancel')->name('cancel.reserve');
 
 });
 

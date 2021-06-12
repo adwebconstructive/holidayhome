@@ -40,6 +40,7 @@
                             <th>Reserved Date</th>
                             <th>Rate</th>
                             <th>Transaction</th>
+                            <th>Cancel</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -63,6 +64,13 @@
                                 @else
                                     <td>Paid</td>
                                 @endif
+                                <td>
+                                    @if($data->cancelled_at)
+                                     Alredy Canceled
+                                    @else
+                                        <a href="{{route('cancel.reserve',$data->reservation_id)}}">Cancel Booking</a>
+                                    @endif
+                                </td>
                             </tr>
                         @endif
                         @endforeach
