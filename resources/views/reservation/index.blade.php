@@ -48,28 +48,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($reservations as $data)
-                                @if($data)
-                                    <tr>
-                                        <td>{{$data->reservation_id}}</td>
-                                        <td>{{$data->reservedByUser->name}}/{{$data->reservedByUser->emp_id}}</td>
-                                        <td>{{$data->reservedForUser->name}}/{{$data->reservedForUser->emp_id}}</td>
-                                        <td>{{$data->reserved_type}}</td>
-                                        <td>{{$data->hotel->name}}</td>
-                                        <td>{{ $data->room->room_number }}</td>
-                                        <td>
-                                            @foreach($data->reserved_dates as $date)
-                                                {{ $date }} <br>
-                                            @endforeach
-                                        </td>
-                                        <td>Rs. {{$data->rate * $data->reserved_dates->count()}} </td>
-                                        @if(empty($data->transaction_id))
-                                            <td>Not Paid</td>
-                                        @else
-                                            <td>Paid</td>
-                                        @endif
-                                    </tr>
-                                @endif
+                                @foreach($reservations as $reservation_id => $reservation_list)
+                                    @foreach($reservation_list as $data)
+                                        <tr>
+                                            <td>{{ $reservation_id }}</td>
+                                            <td>{{ $data->reservedByUser->name }}/{{ $data->reservedByUser->emp_id }}</td>
+                                            <td>{{ $data->reservedForUser->name }}/{{ $data->reservedForUser->emp_id }}</td>
+                                            <td>{{ $data->reserved_type }}</td>
+                                            <td>{{ $data->hotel->name }}</td>
+                                            <td>{{ $data->room->room_number }}</td>
+                                            <td>{{ $data->reserved_date }}</td>
+                                            <td></td>
+                                            @if(empty($data->transaction_id))
+                                                <td>Not Paid</td>
+                                            @else
+                                                <td>Paid</td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                                 </tbody>
                             </table>

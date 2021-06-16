@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\EmailHelper;
+use App\Helpers\ReservationHelper;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Hotel;
@@ -14,23 +15,15 @@ use Carbon\CarbonPeriod;
 
 class ReservationController extends Controller
 {
+    private $helper = null;
+
+    public function __construct(ReservationHelper $helper)
+    {
+        $this->helper = $helper;
+    }
     public function index(Request $request)
     {
-        $reservations = collect([]);
-        $db_data = Reservation::take(300)->get();
-        $last = null;
-        foreach($db_data as $reservation){
-            if($last != null && $last->reservation_id == $reservation->reservation_id){
-                $last->reserved_dates->push($reservation->reserved_date);
-            }else{
-                if($last){
-                    $reservations->push($last);
-                }
-                $last = $reservation;
-                $last->reserved_dates = collect([$reservation->reserved_date]);
-            }
-        }
-        $reservations->push($last);
+        $reservations = $this->helper->getReservations(20);
         return view('reservation.index', compact('reservations'));
     }
 

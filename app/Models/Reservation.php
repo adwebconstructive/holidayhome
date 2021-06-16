@@ -27,6 +27,7 @@ class Reservation extends Model
     {
         return $this->belongsTo('App\User', 'reserved_by','id')->withTrashed()->withDefault(['name' => null]);
     }
+
     public function reservedForUser()
     {
         return $this->belongsTo('App\User', 'reserved_for','id')->withTrashed()->withDefault(['name' => null]);
